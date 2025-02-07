@@ -80,7 +80,7 @@ class player():
                     return False
         return True
     def shoot(self):
-        self.bullets.append((self.pos[0], self.pos[1], self.direction))
+        self.bullets.append((self.pos[0] + cos(self.direction), self.pos[1] + sin(self.direction), self.direction))
 
     def bullet_move(self,enemies):
         for bullet in self.bullets:
