@@ -79,6 +79,7 @@ class player():
                 if self.hp <= 0:
                     return False
         return True
+    
     def shoot(self):
         self.bullets.append((self.pos[0] + cos(self.direction), self.pos[1] + sin(self.direction), self.direction))
 

@@ -24,7 +24,7 @@ def menu(screen, elim_count, level, HEIGHT, WIDTH):
     font = pygame.font.SysFont('Pixeloid Sans', int(27*scale_factor))
     run_info = font.render(message, False, (255, 255, 255))
     screen.blit(run_info, ((WIDTH-run_info.get_rect()[2])/2,440*scale_factor))
-    if int(level) >= 4:
+    if int(level) >= 5:
         screen.blit(trophy_image, ((WIDTH-trophy_image.get_rect()[2])/2,480*scale_factor))
 
 

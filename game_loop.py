@@ -1,6 +1,6 @@
 import pygame
 from player import player
-from math import cos,sin,degrees,radians,pi
+from math import cos,sin,degrees,pi
 from handelers import handeler, rot_center
 from map import elim_goals, find_num_matrix
 
