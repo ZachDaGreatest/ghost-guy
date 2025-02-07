@@ -4,13 +4,15 @@ from menu import menu
  
 pygame.init()
 
-HEIGHT = 480    #factors of 480 work best
+HEIGHT = 720    #factors of 240 work best
 WIDTH = int(HEIGHT*(4/3))
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("guy")
 elim_count = 0
 level = 0
+
+# pygame.display.toggle_fullscreen()
 
 gaming = True
 while gaming:

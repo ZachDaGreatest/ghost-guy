@@ -1,7 +1,7 @@
 import pygame
 from player import player
-from math import cos,sin
-from handelers import handeler
+from math import cos,sin,degrees,radians,pi
+from handelers import handeler, rot_center
 from map import elim_goals, find_num_matrix
 
 pygame.init()
@@ -33,8 +33,6 @@ def game_loop(screen, HEIGHT, WIDTH):
 
     floor_image = pygame.image.load('sprites\\floor.png')
     floor_image = pygame.transform.scale_by(floor_image,(map_size/16))
-    dagger_image = pygame.image.load('sprites\\dagger.png')
-    dagger_image = pygame.transform.scale_by(dagger_image,(map_size/16))
     wall_image = pygame.image.load('sprites\wall.png')
     wall_image = pygame.transform.scale_by(wall_image,(map_size/16))
     guy_image = pygame.image.load('sprites\guy.png')
@@ -108,7 +106,6 @@ def game_loop(screen, HEIGHT, WIDTH):
 
         run_info = font.render(('level ' + str(current_level+1) + ' with ' + str(enemy_handeler.elim_count) + ' eliminations'), False, (255, 255, 255))
         screen.blit(run_info, (WIDTH-run_info.get_rect()[2]-map_size,0))
-        print(run_info.get_rect())
 
         for pos in floors:
             screen.blit(floor_image, (pos[0]*map_size, pos[1]*map_size))
@@ -125,7 +122,12 @@ def game_loop(screen, HEIGHT, WIDTH):
 
         # pygame.draw.rect(screen, (0,255,0), (guy.pos[0]*map_size + cos(guy.direction)*map_size/2 + map_size*(3/8), guy.pos[1]*map_size + sin(guy.direction)*map_size/2 + map_size*(3/8), map_size/4, map_size/4))
         screen.blit(guy_image, (guy.pos[0]*map_size, guy.pos[1]*map_size))
-        screen.blit(dagger_image, (guy.pos[0]*map_size + cos(guy.direction)*map_size/1.33, guy.pos[1]*map_size + sin(guy.direction)*map_size/1.33))
+
+        dagger_image = pygame.image.load('sprites\\dagger.png')
+        dagger_image = pygame.transform.scale_by(dagger_image,(map_size/16))
+        dagger_image = pygame.transform.rotate(dagger_image, -degrees(guy.direction+pi/2))
+        # dagger_image = rot_center(dagger_image, guy.direction)
+        screen.blit(dagger_image, (guy.pos[0]*map_size + map_size*(13/32) + cos(guy.direction)*map_size/1.33, guy.pos[1]*map_size + map_size*(3/8) + sin(guy.direction)*map_size/1.33))
         
         for num in range(guy.hp):
             screen.blit(heart_image, (num*map_size + map_size, 0))
