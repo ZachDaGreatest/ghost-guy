@@ -104,7 +104,7 @@ def game_loop(screen, HEIGHT, WIDTH):
 
         enemy_handeler.enemy_check(guy.pos,dt)
 
-        run_info = font.render(('level ' + str(current_level+1) + ' with ' + str(enemy_handeler.elim_count) + ' eliminations'), False, (255, 255, 255))
+        run_info = font.render(('level ' + str(current_level+1) + ' with ' + str(enemy_handeler.elim_count) + ' eliminations'), False, (169, 169, 169))
         screen.blit(run_info, (WIDTH-run_info.get_rect()[2]-map_size,0))
 
         for pos in floors:

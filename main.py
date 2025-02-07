@@ -12,7 +12,7 @@ pygame.display.set_caption("guy")
 elim_count = 0
 level = 0
 
-# pygame.display.toggle_fullscreen()
+pygame.display.toggle_fullscreen()
 
 gaming = True
 while gaming:
