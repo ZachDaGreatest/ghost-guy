@@ -33,11 +33,11 @@ def game_loop(screen, HEIGHT, WIDTH):
 
     floor_image = pygame.image.load('sprites\\floor.png')
     floor_image = pygame.transform.scale_by(floor_image,(map_size/16))
-    wall_image = pygame.image.load('sprites\wall.png')
+    wall_image = pygame.image.load('sprites\\wall.png')
     wall_image = pygame.transform.scale_by(wall_image,(map_size/16))
-    guy_image = pygame.image.load('sprites\guy.png')
+    guy_image = pygame.image.load('sprites\\guy.png')
     guy_image = pygame.transform.scale_by(guy_image,(map_size/16))
-    heart_image = pygame.image.load('sprites\heart.png')
+    heart_image = pygame.image.load('sprites\\heart.png')
     heart_image = pygame.transform.scale_by(heart_image,(map_size/7))
 
     game_clock = pygame.time.Clock()
@@ -125,9 +125,8 @@ def game_loop(screen, HEIGHT, WIDTH):
 
         dagger_image = pygame.image.load('sprites\\dagger.png')
         dagger_image = pygame.transform.scale_by(dagger_image,(map_size/16))
-        dagger_image = pygame.transform.rotate(dagger_image, -degrees(guy.direction+pi/2))
-        # dagger_image = rot_center(dagger_image, guy.direction)
-        screen.blit(dagger_image, (guy.pos[0]*map_size + map_size*(13/32) + cos(guy.direction)*map_size/1.33, guy.pos[1]*map_size + map_size*(3/8) + sin(guy.direction)*map_size/1.33))
+        dagger_image = rot_center(dagger_image, -degrees(guy.direction+pi/2))
+        screen.blit(dagger_image, (guy.pos[0]*map_size + map_size*(1/4) + cos(guy.direction)*map_size/1.2, guy.pos[1]*map_size + map_size*(1/4) + sin(guy.direction)*map_size/1.2))
         
         for num in range(guy.hp):
             screen.blit(heart_image, (num*map_size + map_size, 0))
