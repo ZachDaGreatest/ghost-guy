@@ -4,15 +4,16 @@ import pygame
 
 class handeler():
     def __init__(self,map_size):
-        spooky_ghost_image = pygame.image.load('sprites\spooky ghost.png')
+        spooky_ghost_image = pygame.image.load('sprites\\spooky ghost.png')
         spooky_ghost_image = pygame.transform.scale_by(spooky_ghost_image,(map_size/16))
-        sprinter_ghost_image = pygame.image.load('sprites\sprinting ghost.png')
+        sprinter_ghost_image = pygame.image.load('sprites\\sprinting ghost.png')
         sprinter_ghost_image = pygame.transform.scale_by(sprinter_ghost_image,(map_size/16))
         self.positions = []
         self.enemie_num = 0
         self.type_info = {
             'basic' : (.05, spooky_ghost_image, 1),
-            'sprinter' : (.1, sprinter_ghost_image, 1)
+            'sprinter' : (.1, sprinter_ghost_image, 1),
+            'place holder' : (0, spooky_ghost_image, 1)   #place holder is for testing
         }
         self.elim_count = 0
         self.speed = .05
@@ -25,17 +26,20 @@ class handeler():
         self.enemie_num -= 1
         self.elim_count += 1
     def enemy_check(self,player_pos,dt):
-        for enemy in self.positions:
+        pos_storage = self.positions
+        self.positions = []
+        for enemy in pos_storage:
             x = enemy[0] - player_pos[0]
             y = enemy[1] - player_pos[1]
             ghost_type = enemy[2]
             angle = atan(y/x)
             speed = self.type_info[enemy[2]][0]
-            self.positions.remove(enemy)
-            if x<0:
-                self.positions.append((enemy[0]+cos(angle)*dt*speed,enemy[1]+sin(angle)*dt*speed, ghost_type))
+            xspeed = cos(angle)*dt*speed
+            yspeed = sin(angle)*dt*speed
             if x>0:
-                self.positions.append((enemy[0]-cos(angle)*dt*speed,enemy[1]-sin(angle)*dt*speed, ghost_type))
+                xspeed = -xspeed
+                yspeed = -yspeed
+            self.positions.append((enemy[0] + xspeed, enemy[1] + yspeed, ghost_type))
     def spawn_enemy_random(self, player_pos, map_size, current_level):
         looking = True
         while looking:
@@ -62,7 +66,6 @@ class handeler():
             else: self.elim_count += 10
         return current_level, frame_count
     
-
 def rot_center(image, angle):
     """rotate an image while keeping its center and size"""
     orig_rect = image.get_rect()

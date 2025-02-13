@@ -45,9 +45,9 @@ def game_loop(screen, HEIGHT, WIDTH):
     while running:
         frame_count += 1
         spawn_frame_count += 1
-
-        pygame.display.set_caption('you have a score of '+ str(enemy_handeler.elim_count))
         
+        # print(game_clock.get_fps()) #debugging ghost movement
+
         if tick_rate != 60:
             try: dt = 60/float(game_clock.get_fps())
             except: dt = 1
@@ -134,7 +134,7 @@ def game_loop(screen, HEIGHT, WIDTH):
         if prev_hp > guy.hp:
             hit_frames += 12*dt
 
-        pygame.display.flip()
+        pygame.display.update((0,0,WIDTH,HEIGHT))
         game_clock.tick(tick_rate)
 
         current_level, frame_count = enemy_handeler.level_check(elim_goals, frame_count, current_level, guy)

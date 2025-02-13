@@ -5,9 +5,9 @@ def menu(screen, elim_count, level, HEIGHT, WIDTH):
 
     scale_factor = HEIGHT / 600
 
-    logo = pygame.image.load('sprites\ghost guy logo.png')
+    logo = pygame.image.load('sprites\\ghost guy logo.png')
     logo = pygame.transform.scale_by(logo,(10*scale_factor))
-    start_button = pygame.image.load('sprites\start button.png')
+    start_button = pygame.image.load('sprites\\start button.png')
     start_button = pygame.transform.scale_by(start_button,(5*scale_factor))
     trophy_image = pygame.image.load('sprites\\trophy.png')
     trophy_image = pygame.transform.scale_by(trophy_image,(5*scale_factor))
