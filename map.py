@@ -84,7 +84,8 @@ level_5 = [
 #16x11 spawnable
 
 elim_goals = [10, 30, 70, 150, 310, 670, 1390, 2830]
-maps = [level_1,level_2,level_3,level_4,level_5,level_5,level_5,level_5]
+# maps = [level_1,level_2,level_3,level_4,level_5,level_5,level_5,level_5]
+maps = [level_1,level_1,level_1,level_1,level_1,level_1,level_1,level_1]
 
 def find_num_matrix(desired_num, end_list, current_level):
     y = 0

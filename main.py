@@ -17,4 +17,4 @@ level = 0
 gaming = True
 while gaming:
     play, gaming = menu(screen, elim_count, level, HEIGHT, WIDTH)
-    if play: elim_count, level = game_loop(screen, HEIGHT, WIDTH)
+    if play: elim_count, level = game_loop(screen, HEIGHT, WIDTH) 

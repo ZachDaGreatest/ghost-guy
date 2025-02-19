@@ -1,5 +1,6 @@
-from math import sin,cos,atan,degrees
+from math import sin,cos,atan,pi
 from random import randint
+from map import collision_check
 import pygame
 
 class handeler():
@@ -8,11 +9,18 @@ class handeler():
         spooky_ghost_image = pygame.transform.scale_by(spooky_ghost_image,(map_size/16))
         sprinter_ghost_image = pygame.image.load('sprites\\sprinting ghost.png')
         sprinter_ghost_image = pygame.transform.scale_by(sprinter_ghost_image,(map_size/16))
+        mage_ghost_image = pygame.image.load('sprites\\mage ghost.png')
+        mage_ghost_image = pygame.transform.scale_by(mage_ghost_image,(map_size/16))
         self.positions = []
         self.enemie_num = 0
+        self.bullet_speed = .1
+        self.ghost_bullets = []
+
+        #TODO add a spawn frame count at the end so you can play a spawning animation
         self.type_info = {
             'basic' : (.05, spooky_ghost_image, 1),
             'sprinter' : (.1, sprinter_ghost_image, 1),
+            'mage' : (.005, mage_ghost_image, 1),
             'place holder' : (0, spooky_ghost_image, 1)   #place holder is for testing
         }
         self.elim_count = 0
@@ -39,7 +47,11 @@ class handeler():
             if x>0:
                 xspeed = -xspeed
                 yspeed = -yspeed
+                angle += (pi)
             self.positions.append((enemy[0] + xspeed, enemy[1] + yspeed, ghost_type))
+            if enemy[2] == 'mage':
+                if randint(0,60) >= 60:
+                    self.shoot(angle, enemy[0], enemy[1])
     def spawn_enemy_random(self, player_pos, map_size, current_level):
         looking = True
         while looking:
@@ -52,6 +64,8 @@ class handeler():
         ghost_type = 'basic'
         if randint(0,10) > (10 - current_level):
             ghost_type = 'sprinter'
+        elif randint(0,10) > (11 - current_level):
+            ghost_type = 'mage'
         self.enemie_num += 1
         self.positions.append((x,y,ghost_type))
     def level_check(self, elim_list, frame_count, current_level, player):
@@ -65,7 +79,23 @@ class handeler():
             if player.hp < 5: player.hp += 1
             else: self.elim_count += 10
         return current_level, frame_count
-    
+    def shoot(self, angle, x, y):
+        self.ghost_bullets.append((x,y,angle))
+    def move_bullets(self, player, wall_pos, hit, dt):
+        temp = self.ghost_bullets
+        self.ghost_bullets = []
+        for bullet in temp:
+            x_speed = cos(bullet[2]) * dt * self.bullet_speed
+            y_speed = sin(bullet[2]) * dt * self.bullet_speed
+            x_wall, y_wall = collision_check(wall_pos,.5,x_speed,y_speed,(bullet[0],bullet[1]))
+            x_player, y_player = collision_check([player.pos],1,x_speed,y_speed,(bullet[0],bullet[1]))
+            if x_wall and y_wall == True:
+                pass
+            elif x_player and y_player == True:
+                if hit <= 0:
+                    player.hp -= 1
+            else:
+                self.ghost_bullets.append((bullet[0] + x_speed, bullet[1] + y_speed, bullet[2]))
 def rot_center(image, angle):
     """rotate an image while keeping its center and size"""
     orig_rect = image.get_rect()

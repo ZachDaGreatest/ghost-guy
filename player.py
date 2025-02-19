@@ -84,16 +84,17 @@ class player():
         self.bullets.append((self.pos[0] + cos(self.direction), self.pos[1] + sin(self.direction), self.direction))
 
     def bullet_move(self,enemies):
-        for bullet in self.bullets:
+        #TODO make movement uniform like the ghosts
+        temp_list = self.bullets
+        self.bullets = []
+        for bullet in temp_list:
             x_speed = cos(bullet[2]) * self.dt * self.bullet_speed
             y_speed = sin(bullet[2]) * self.dt * self.bullet_speed
             x_wall, y_wall = collision_check(self.room_walls,.5,x_speed,y_speed,(bullet[0],bullet[1]))
             x_enemy, y_enemy = collision_check(enemies.positions,1,x_speed,y_speed,(bullet[0],bullet[1]))
             if x_wall and y_wall == True:
-                self.bullets.remove(bullet)
+                pass
             elif x_enemy and y_enemy == True:
                 enemies.destroy_enemy((bullet[0],bullet[1]))
-                self.bullets.remove(bullet)
             else:
-                self.bullets.remove(bullet)
                 self.bullets.append((bullet[0] + x_speed, bullet[1] + y_speed, bullet[2]))

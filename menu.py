@@ -5,6 +5,7 @@ def menu(screen, elim_count, level, HEIGHT, WIDTH):
 
     scale_factor = HEIGHT / 600
 
+    icon = pygame.image.load('original images\\Ospooky ghost.png')
     logo = pygame.image.load('sprites\\ghost guy logo.png')
     logo = pygame.transform.scale_by(logo,(10*scale_factor))
     start_button = pygame.image.load('sprites\\start button.png')
@@ -27,7 +28,7 @@ def menu(screen, elim_count, level, HEIGHT, WIDTH):
     if int(level) >= 5:
         screen.blit(trophy_image, ((WIDTH-trophy_image.get_rect()[2])/2,480*scale_factor))
 
-
+    pygame.display.set_icon(icon)
     pygame.display.flip()
     
     while True:

@@ -97,12 +97,16 @@ def game_loop(screen, HEIGHT, WIDTH):
         
         prev_hp = guy.hp
         status = guy.check(forward,backward,right,left,wall_hitbox,enemy_handeler,hit_frames)
+        if guy.hp < 1:
+            status = False
         if status == False: running = False
         guy.bullet_move(enemy_handeler)
         
         guy.pos_update()
 
         enemy_handeler.enemy_check(guy.pos,dt)
+
+        enemy_handeler.move_bullets(guy, guy.room_walls, hit_frames, dt)
 
         run_info = font.render(('level ' + str(current_level+1) + ' with ' + str(enemy_handeler.elim_count) + ' eliminations'), False, (169, 169, 169))
         screen.blit(run_info, (WIDTH-run_info.get_rect()[2]-map_size,0))
@@ -119,6 +123,9 @@ def game_loop(screen, HEIGHT, WIDTH):
         
         for bullet in guy.bullets:
             pygame.draw.rect(screen, (192,192,192), (bullet[0]*map_size+(3/8)*map_size, bullet[1]*map_size+(3/8)*map_size, map_size/4, map_size/4))
+
+        for bullet in enemy_handeler.ghost_bullets:
+            pygame.draw.rect(screen, (255,0,255), (bullet[0]*map_size+(3/8)*map_size, bullet[1]*map_size+(3/8)*map_size, map_size/4, map_size/4))
 
         # pygame.draw.rect(screen, (0,255,0), (guy.pos[0]*map_size + cos(guy.direction)*map_size/2 + map_size*(3/8), guy.pos[1]*map_size + sin(guy.direction)*map_size/2 + map_size*(3/8), map_size/4, map_size/4))
         screen.blit(guy_image, (guy.pos[0]*map_size, guy.pos[1]*map_size))
