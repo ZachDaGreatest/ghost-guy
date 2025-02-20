@@ -35,8 +35,8 @@ def game_loop(screen, HEIGHT, WIDTH):
     floor_image = pygame.transform.scale_by(floor_image,(map_size/16))
     wall_image = pygame.image.load('sprites\\wall.png')
     wall_image = pygame.transform.scale_by(wall_image,(map_size/16))
-    guy_image = pygame.image.load('sprites\\guy.png')
-    guy_image = pygame.transform.scale_by(guy_image,(map_size/16))
+    guy_image = pygame.image.load('original images\\round milmoe.jpg')
+    guy_image = pygame.transform.scale_by(guy_image,(map_size/16)/6.25)
     heart_image = pygame.image.load('sprites\\heart.png')
     heart_image = pygame.transform.scale_by(heart_image,(map_size/7))
 

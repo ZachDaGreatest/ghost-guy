@@ -12,9 +12,16 @@ def menu(screen, elim_count, level, HEIGHT, WIDTH):
     start_button = pygame.transform.scale_by(start_button,(5*scale_factor))
     trophy_image = pygame.image.load('sprites\\trophy.png')
     trophy_image = pygame.transform.scale_by(trophy_image,(5*scale_factor))
+    milmoe = pygame.image.load('original images\\milmoe.jpg')
+    milmoe = pygame.transform.scale_by(milmoe,(scale_factor/2))
 
     screen.blit(logo, ((WIDTH-logo.get_rect()[2])/2,155*scale_factor))
     screen.blit(start_button, ((WIDTH-start_button.get_rect()[2])/2,370*scale_factor))
+    screen.blit(milmoe, (WIDTH/2+65*scale_factor,265*scale_factor))
+    font = pygame.font.SysFont('Pixeloid Sans', int(45*scale_factor))
+    milmoe_text = font.render('MILMOE', False, (0, 0, 0))
+    pygame.draw.rect(screen, (125,125,125), (WIDTH/2-scale_factor*145, 245*scale_factor, 190*scale_factor, 80*scale_factor))
+    screen.blit(milmoe_text, (WIDTH/2-scale_factor*142, 260*scale_factor))
 
     #TODO add text of how you did in the previous run
     if level == 0:
