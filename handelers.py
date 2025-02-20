@@ -72,6 +72,8 @@ class handeler():
         if self.elim_count >= elim_list[current_level]:
             current_level += 1
             self.positions = []
+            self.ghost_bullets = []
+            player.bullets = []
             self.enemie_num = 0
             frame_count = 0
             player.set_walls(current_level)
