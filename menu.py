@@ -10,11 +10,14 @@ def menu(screen, elim_count, level, HEIGHT, WIDTH):
     logo = pygame.transform.scale_by(logo,(10*scale_factor))
     start_button = pygame.image.load('sprites\\start button.png')
     start_button = pygame.transform.scale_by(start_button,(5*scale_factor))
+    options_button = pygame.image.load('sprites\\options image.png')
+    options_button = pygame.transform.scale_by(options_button,(5*scale_factor))
     trophy_image = pygame.image.load('sprites\\trophy.png')
     trophy_image = pygame.transform.scale_by(trophy_image,(5*scale_factor))
 
     screen.blit(logo, ((WIDTH-logo.get_rect()[2])/2,155*scale_factor))
     screen.blit(start_button, ((WIDTH-start_button.get_rect()[2])/2,370*scale_factor))
+    screen.blit(options_button, ((WIDTH-options_button.get_rect()[2])/2,490*scale_factor))
 
     #TODO add text of how you did in the previous run
     if level == 0:
@@ -26,7 +29,7 @@ def menu(screen, elim_count, level, HEIGHT, WIDTH):
     run_info = font.render(message, False, (169, 169, 169))
     screen.blit(run_info, ((WIDTH-run_info.get_rect()[2])/2,440*scale_factor))
     if int(level) >= 5:
-        screen.blit(trophy_image, ((WIDTH-trophy_image.get_rect()[2])/2,480*scale_factor))
+        screen.blit(trophy_image, ((WIDTH-trophy_image.get_rect()[2])/2,50*scale_factor))
 
     pygame.display.set_icon(icon)
     pygame.display.flip()
@@ -39,6 +42,9 @@ def menu(screen, elim_count, level, HEIGHT, WIDTH):
                 y = pygame.mouse.get_pos()[1]
                 if 312.5*scale_factor < x < 487.5*scale_factor and 370*scale_factor < y < 425*scale_factor:
                     return True, True
+                if 295*scale_factor < x < 505*scale_factor and 490*scale_factor < y < 545*scale_factor:
+                    return False, True
+                
             if event.type == pygame.KEYDOWN: 
                 if event.key == pygame.K_ESCAPE: return False,  False
                 if event.key == pygame.K_SPACE: return True,  True

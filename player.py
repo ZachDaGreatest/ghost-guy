@@ -2,18 +2,25 @@ from math import sin,cos,sqrt,pi
 from map import collision_check, find_num_matrix
 
 class player():
-    def __init__(self,pos,acceleration,current_level):
+    def __init__(self,pos,chosen_class):
         self.room_walls = []
-        find_num_matrix(1,self.room_walls,current_level)
+        find_num_matrix(1,self.room_walls,0)
         self.pos = pos
         self.direction = -pi/2
         self.x_speed = 0
         self.y_speed = 0
-        self.acceleration = acceleration
         self.speed = 0
         self.bullets = []
         self.bullet_speed = .4
-        self.hp = 3
+        self.chosen_class = chosen_class
+        # (class name, starting hp, max hp, speed)
+        self.classes = {
+            'ranger' : ['magic dagger', 3, 5, .005],
+            'knight' : ['sword', 4, 6, .0075]
+        }
+        self.hp = self.classes[chosen_class][1]
+        self.max_hp = self.classes[chosen_class][2]
+        self.acceleration = self.classes[chosen_class][3]
 
     def set_dt(self,dt):
         self.dt = dt
@@ -98,3 +105,12 @@ class player():
                 enemies.destroy_enemy((bullet[0],bullet[1]))
             else:
                 self.bullets.append((bullet[0] + x_speed, bullet[1] + y_speed, bullet[2]))
+    
+    def sword_swing(self,enemies):
+        self.bullets = []
+        x = self.pos[0] + cos(self.direction) * 1.1
+        y = self.pos[1] + sin(self.direction) * 1.1
+        self.bullets.append((x, y, self.direction))
+        x_enemy, y_enemy = collision_check(enemies.positions,.6,0,0,(x,y))
+        if x_enemy and y_enemy == True:
+            enemies.destroy_enemy((x,y))

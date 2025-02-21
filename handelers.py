@@ -78,7 +78,7 @@ class handeler():
             frame_count = 0
             player.set_walls(current_level)
             player.pos = (2,2)
-            if player.hp < 5: player.hp += 1
+            if player.hp < player.max_hp: player.hp += 1
             else: self.elim_count += 10
         return current_level, frame_count
     def shoot(self, angle, x, y):

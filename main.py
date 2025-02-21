@@ -2,6 +2,7 @@
 import pygame
 from game_loop import game_loop
 from menu import menu
+from options import option_menu
  
 pygame.init()
 
@@ -15,7 +16,10 @@ level = 0
 
 # pygame.display.toggle_fullscreen()
 
+chosen_class = 'ranger' #ranger is the default class, modify for testing
+
 gaming = True
 while gaming:
     play, gaming = menu(screen, elim_count, level, HEIGHT, WIDTH)
-    if play: elim_count, level = game_loop(screen, HEIGHT, WIDTH) 
+    if play: elim_count, level = game_loop(screen, HEIGHT, WIDTH, chosen_class)
+    elif gaming: gaming, chosen_class = option_menu(screen, HEIGHT, WIDTH, chosen_class)

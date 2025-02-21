@@ -6,7 +6,7 @@ from map import elim_goals, find_num_matrix
 
 pygame.init()
 
-def game_loop(screen, HEIGHT, WIDTH):
+def game_loop(screen, HEIGHT, WIDTH, chosen_class):
     tick_rate = 60
     spawn_frame_count = 0
     hit_frames = 0
@@ -20,13 +20,13 @@ def game_loop(screen, HEIGHT, WIDTH):
     left = False
     running = True
     
+    guy = player((2,2),chosen_class)
+
     floors = []
     find_num_matrix(0, floors, 5)
-    player_acceleration = .005
     wall_hitbox = .93
     map_size = WIDTH/20
     font = pygame.font.SysFont('Pixeloid Sans', int(map_size/1.2))
-    guy = player((2,2),player_acceleration,0)
     enemy_handeler = handeler(map_size)
     try: guy.set_dt(dt)
     except: guy.set_dt(1)
@@ -77,7 +77,9 @@ def game_loop(screen, HEIGHT, WIDTH):
                 if event.key == pygame.K_d: right = True
                 if event.key == pygame.K_RIGHT: turn_right = True
                 if event.key == pygame.K_LEFT: turn_left = True
-                if event.key == pygame.K_UP: guy.shoot()
+                if event.key == pygame.K_UP: 
+                    if guy.chosen_class == 'ranger':
+                        guy.shoot()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w: forward = False
                 if event.key == pygame.K_a: left = False
@@ -100,12 +102,14 @@ def game_loop(screen, HEIGHT, WIDTH):
         if guy.hp < 1:
             status = False
         if status == False: running = False
-        guy.bullet_move(enemy_handeler)
+
+        if guy.chosen_class == 'ranger': 
+            guy.bullet_move(enemy_handeler)
+        if guy.chosen_class == 'knight': 
+            guy.sword_swing(enemy_handeler)
         
         guy.pos_update()
-
         enemy_handeler.enemy_check(guy.pos,dt)
-
         enemy_handeler.move_bullets(guy, guy.room_walls, hit_frames, dt)
 
         run_info = font.render(('level ' + str(current_level+1) + ' with ' + str(enemy_handeler.elim_count) + ' eliminations'), False, (169, 169, 169))
@@ -122,7 +126,8 @@ def game_loop(screen, HEIGHT, WIDTH):
             screen.blit(enemy_handeler.type_info[enemy[2]][1], (enemy[0]*map_size, enemy[1]*map_size))
         
         for bullet in guy.bullets:
-            pygame.draw.rect(screen, (192,192,192), (bullet[0]*map_size+(3/8)*map_size, bullet[1]*map_size+(3/8)*map_size, map_size/4, map_size/4))
+            if guy.chosen_class != 'knight':
+                pygame.draw.rect(screen, (192,192,192), (bullet[0]*map_size+(3/8)*map_size, bullet[1]*map_size+(3/8)*map_size, map_size/4, map_size/4))
 
         for bullet in enemy_handeler.ghost_bullets:
             pygame.draw.rect(screen, (255,0,255), (bullet[0]*map_size+(3/8)*map_size, bullet[1]*map_size+(3/8)*map_size, map_size/4, map_size/4))
