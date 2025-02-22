@@ -12,16 +12,16 @@ class player():
         self.speed = 0
         self.bullets = []
         self.bullet_speed = .4
+        self.slash_speed = .075
         self.chosen_class = chosen_class
-        # (class name, starting hp, max hp, speed)
+        # class name : [weapon name, starting hp, max hp, speed]
         self.classes = {
             'ranger' : ['magic dagger', 3, 5, .005],
-            'knight' : ['sword', 4, 6, .0075]
+            'knight' : ['sword', 5, 8, .0075]
         }
         self.hp = self.classes[chosen_class][1]
         self.max_hp = self.classes[chosen_class][2]
         self.acceleration = self.classes[chosen_class][3]
-
     def set_dt(self,dt):
         self.dt = dt
 
@@ -43,8 +43,12 @@ class player():
         self.x_speed -= self.speed * self.dt
     def turn_right(self):
         self.direction += .1 * self.dt
+        if self.chosen_class == 'knight':
+            self.direction += self.slash_speed * self.dt
     def turn_left(self):
         self.direction -= .1 * self.dt
+        if self.chosen_class == 'knight':
+            self.direction -= self.slash_speed * self.dt
     def pos_update(self):
         self.pos = (self.pos[0] + self.x_speed, self.pos[1] + self.y_speed)
         self.x_speed = 0
@@ -111,6 +115,6 @@ class player():
         x = self.pos[0] + cos(self.direction) * 1.1
         y = self.pos[1] + sin(self.direction) * 1.1
         self.bullets.append((x, y, self.direction))
-        x_enemy, y_enemy = collision_check(enemies.positions,.6,0,0,(x,y))
+        x_enemy, y_enemy = collision_check(enemies.positions,.75,0,0,(x,y))
         if x_enemy and y_enemy == True:
             enemies.destroy_enemy((x,y))

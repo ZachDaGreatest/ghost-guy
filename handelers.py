@@ -50,7 +50,8 @@ class handeler():
                 angle += (pi)
             self.positions.append((enemy[0] + xspeed, enemy[1] + yspeed, ghost_type))
             if enemy[2] == 'mage':
-                if randint(0,60) >= 60:
+                num = int(120 * dt)
+                if randint(0,num) >= num:
                     self.shoot(angle, enemy[0], enemy[1])
     def spawn_enemy_random(self, player_pos, map_size, current_level):
         looking = True

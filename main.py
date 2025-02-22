@@ -17,6 +17,7 @@ level = 0
 # pygame.display.toggle_fullscreen()
 
 chosen_class = 'ranger' #ranger is the default class, modify for testing
+# chosen_class = 'knight'
 
 gaming = True
 while gaming:

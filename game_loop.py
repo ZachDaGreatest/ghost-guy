@@ -26,7 +26,7 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class):
     find_num_matrix(0, floors, 5)
     wall_hitbox = .93
     map_size = WIDTH/20
-    font = pygame.font.SysFont('Pixeloid Sans', int(map_size/1.2))
+    font = pygame.font.SysFont('Pixeloid Sans', int(27*(HEIGHT/600)))
     enemy_handeler = handeler(map_size)
     try: guy.set_dt(dt)
     except: guy.set_dt(1)
@@ -113,7 +113,7 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class):
         enemy_handeler.move_bullets(guy, guy.room_walls, hit_frames, dt)
 
         run_info = font.render(('level ' + str(current_level+1) + ' with ' + str(enemy_handeler.elim_count) + ' eliminations'), False, (169, 169, 169))
-        screen.blit(run_info, (WIDTH-run_info.get_rect()[2]-map_size,0))
+        screen.blit(run_info, (WIDTH-run_info.get_rect()[2]-map_size, map_size*.1))
 
         for pos in floors:
             screen.blit(floor_image, (pos[0]*map_size, pos[1]*map_size))
@@ -140,8 +140,13 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class):
         dagger_image = rot_center(dagger_image, -degrees(guy.direction+pi/2))
         screen.blit(dagger_image, (guy.pos[0]*map_size + map_size*(1/4) + cos(guy.direction)*map_size/1.2, guy.pos[1]*map_size + map_size*(1/4) + sin(guy.direction)*map_size/1.2))
         
-        for num in range(guy.hp):
-            screen.blit(heart_image, (num*map_size + map_size, 0))
+        if guy.hp <= 5:
+            for num in range(guy.hp):
+                screen.blit(heart_image, (num*map_size + map_size, 0))
+        else:
+            hp_text = font.render(str(guy.hp), False, (255, 0, 0))
+            screen.blit(hp_text, (map_size,map_size*.1))
+            screen.blit(heart_image, (hp_text.get_rect()[2] + map_size, 0))
 
         if prev_hp > guy.hp:
             hit_frames += 12*dt
