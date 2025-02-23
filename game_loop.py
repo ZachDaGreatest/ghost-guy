@@ -1,12 +1,12 @@
 import pygame
 from player import player
-from math import cos,sin,degrees,pi
+from math import cos,sin,degrees,atan,pi
 from handelers import handeler, rot_center
 from map import elim_goals, find_num_matrix
 
 pygame.init()
 
-def game_loop(screen, HEIGHT, WIDTH, chosen_class):
+def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method):
     tick_rate = 60
     spawn_frame_count = 0
     hit_frames = 0
@@ -75,28 +75,42 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class):
                 if event.key == pygame.K_a: left = True
                 if event.key == pygame.K_s: backward = True
                 if event.key == pygame.K_d: right = True
-                if event.key == pygame.K_RIGHT: turn_right = True
-                if event.key == pygame.K_LEFT: turn_left = True
-                if event.key == pygame.K_UP: 
-                    if guy.chosen_class == 'ranger':
-                        guy.shoot()
+                if input_method == 'keyboard':
+                    if event.key == pygame.K_RIGHT: turn_right = True
+                    if event.key == pygame.K_LEFT: turn_left = True
+                    if event.key == pygame.K_UP: 
+                        if guy.chosen_class == 'ranger':
+                            guy.shoot()
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w: forward = False
                 if event.key == pygame.K_a: left = False
                 if event.key == pygame.K_s: backward = False
                 if event.key == pygame.K_d: right = False
-                if event.key == pygame.K_RIGHT: turn_right = False
-                if event.key == pygame.K_LEFT: turn_left = False
+                if input_method == 'keyboard':
+                    if event.key == pygame.K_RIGHT: turn_right = False
+                    if event.key == pygame.K_LEFT: turn_left = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if guy.chosen_class == 'ranger' and input_method == 'mouse':
+                    guy.shoot()
         
         if forward == True: guy.move_forward()
         if backward == True: guy.move_backward()
         if right == True: guy.move_right()
         if left == True: guy.move_left()
-        if turn_right == True:
-            guy.turn_right()
-        if turn_left == True: 
-            guy.turn_left()
+        if input_method == 'keyboard':
+            if turn_right == True: guy.turn_right()
+            if turn_left == True: guy.turn_left()
         
+        if input_method == 'mouse':
+            mouse_x = pygame.mouse.get_pos()[0]/map_size
+            mouse_y = pygame.mouse.get_pos()[1]/map_size
+            guy_x = guy.pos[0] + .5
+            guy_y = guy.pos[1] + .5
+            if mouse_x - guy_x < 0:
+                guy.direction = atan((mouse_y-guy_y)/(mouse_x-guy_x)) - pi
+            else:
+                guy.direction = atan((mouse_y-guy_y)/(mouse_x-guy_x))
+
         prev_hp = guy.hp
         status = guy.check(forward,backward,right,left,wall_hitbox,enemy_handeler,hit_frames)
         if guy.hp < 1:
