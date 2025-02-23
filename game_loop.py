@@ -26,7 +26,7 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method):
     find_num_matrix(0, floors, 5)
     wall_hitbox = .93
     map_size = WIDTH/20
-    font = pygame.font.SysFont('Pixeloid Sans', int(27*(HEIGHT/600)))
+    font = pygame.font.Font('fonts\\PixeloidSans.ttf', int(27*(HEIGHT/600)))
     enemy_handeler = handeler(map_size)
     try: guy.set_dt(dt)
     except: guy.set_dt(1)
@@ -126,8 +126,13 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method):
         enemy_handeler.enemy_check(guy.pos,dt)
         enemy_handeler.move_bullets(guy, guy.room_walls, hit_frames, dt)
 
-        run_info = font.render(('level ' + str(current_level+1) + ' with ' + str(enemy_handeler.elim_count) + ' eliminations'), False, (169, 169, 169))
-        screen.blit(run_info, (WIDTH-run_info.get_rect()[2]-map_size, map_size*.1))
+        #choose between run info and elim info with level info
+        # run_info = font.render((f'level {current_level+1} with {enemy_handeler.elim_count} eliminations'), False, (169, 169, 169))
+        # screen.blit(run_info, (WIDTH-run_info.get_rect()[2]-map_size, map_size*.1))
+        elim_info = font.render((f'{elim_goals[current_level]-enemy_handeler.elim_count} ghosts remain'), False, (255, 0, 0))
+        level_info = font.render((f'level {current_level+1}'), False, (169, 169, 169))
+        screen.blit(elim_info, (WIDTH-elim_info.get_rect()[2]-map_size, map_size*.1))
+        screen.blit(level_info, ((WIDTH-level_info.get_rect()[2])/2, map_size*.1))
 
         for pos in floors:
             screen.blit(floor_image, (pos[0]*map_size, pos[1]*map_size))

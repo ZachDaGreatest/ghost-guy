@@ -83,10 +83,10 @@ level_5 = [
 #18x13 walls
 #16x11 spawnable
 
-# elim_goals = [10, 30, 60, 100, 150, 210, 280, 340]  #for use in main game
-# maps = [level_1,level_2,level_3,level_4,level_5,level_5,level_5,level_5]
-elim_goals = [10, 30, 70, 150, 310, 670, 1390, 2830]   #for endless/playground
-maps = [level_1,level_1,level_1,level_1,level_1,level_1,level_1,level_1]
+elim_goals = [10, 30, 60, 100, 150, 210, 280, 340]  #for use in main game
+maps = [level_1,level_2,level_3,level_4,level_5,level_5,level_5,level_5]
+# elim_goals = [10, 30, 70, 150, 310, 670, 1390, 2830]   #for endless/playground
+# maps = [level_1,level_1,level_1,level_1,level_1,level_1,level_1,level_1]
 
 def find_num_matrix(desired_num, end_list, current_level):
     y = 0
