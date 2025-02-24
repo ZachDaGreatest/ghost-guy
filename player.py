@@ -2,9 +2,9 @@ from math import sin,cos,sqrt,pi
 from map import collision_check, find_num_matrix
 
 class player():
-    def __init__(self,pos,chosen_class):
+    def __init__(self,pos,chosen_class,current_level):
         self.room_walls = []
-        find_num_matrix(1,self.room_walls,0)
+        find_num_matrix(1,self.room_walls,current_level)
         self.pos = pos
         self.direction = -pi/2
         self.x_speed = 0
@@ -102,7 +102,7 @@ class player():
             x_speed = cos(bullet[2]) * self.dt * self.bullet_speed
             y_speed = sin(bullet[2]) * self.dt * self.bullet_speed
             x_wall, y_wall = collision_check(self.room_walls,.5,x_speed,y_speed,(bullet[0],bullet[1]))
-            x_enemy, y_enemy = collision_check(enemies.positions,1,x_speed,y_speed,(bullet[0],bullet[1]))
+            x_enemy, y_enemy = collision_check(enemies.positions,.65,x_speed,y_speed,(bullet[0],bullet[1]))
             if x_wall and y_wall == True:
                 pass
             elif x_enemy and y_enemy == True:
@@ -114,7 +114,9 @@ class player():
         self.bullets = []
         x = self.pos[0] + cos(self.direction) * 1.1
         y = self.pos[1] + sin(self.direction) * 1.1
-        self.bullets.append((x, y, self.direction))
-        x_enemy, y_enemy = collision_check(enemies.positions,.75,0,0,(x,y))
-        if x_enemy and y_enemy == True:
-            enemies.destroy_enemy((x,y))
+        x_wall, y_wall = collision_check(self.room_walls,.4,0,0,(x,y))
+        if x_wall == False or y_wall == False:
+            self.bullets.append((x, y, self.direction))
+            x_enemy, y_enemy = collision_check(enemies.positions,.75,0,0,(x,y))
+            if x_enemy and y_enemy == True:
+                enemies.destroy_enemy((x,y))

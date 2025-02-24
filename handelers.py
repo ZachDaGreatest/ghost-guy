@@ -60,7 +60,7 @@ class handeler():
             y = randint(2,map_size[1])
             x_diff = x-player_pos[0]
             y_diff = y-player_pos[1]
-            if (x_diff > 2 or x_diff < -2) and (y_diff > 2 or y_diff < -2):
+            if (x_diff > 2 or x_diff < -2) or (y_diff > 2 or y_diff < -2):
                 looking = False
         ghost_type = 'basic'
         if randint(0,10) > (10 - current_level):

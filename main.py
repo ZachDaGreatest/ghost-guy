@@ -17,7 +17,7 @@ level = 0
 # pygame.display.toggle_fullscreen()
 
 input_method = 'keyboard' #can be 'keyboard' or 'mouse'
-# input_method = 'mouse'
+input_method = 'mouse'
 
 chosen_class = 'ranger' #ranger is the default class, modify for testing
 # chosen_class = 'knight'

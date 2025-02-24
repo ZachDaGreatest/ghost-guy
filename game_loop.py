@@ -20,7 +20,7 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method):
     left = False
     running = True
     
-    guy = player((2,2),chosen_class)
+    guy = player((2,2),chosen_class,current_level)
 
     floors = []
     find_num_matrix(0, floors, 5)
@@ -55,9 +55,10 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method):
         guy.set_dt(dt)
 
         if  enemy_handeler.enemie_num < (current_level + 3):
-            if spawn_frame_count*dt > 12000/(frame_count*dt):
+            if spawn_frame_count*dt > 12000/(frame_count*dt) and (elim_goals[current_level]-enemy_handeler.elim_count) > enemy_handeler.enemie_num:
                 enemy_handeler.spawn_enemy_random(guy.pos,(16,11),current_level)
                 spawn_frame_count = 0
+
         #Draw background
         if hit_frames > 0:
             screen.fill((255,0,0))
