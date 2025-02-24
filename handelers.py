@@ -40,7 +40,8 @@ class handeler():
             x = enemy[0] - player_pos[0]
             y = enemy[1] - player_pos[1]
             ghost_type = enemy[2]
-            angle = atan(y/x)
+            try: angle = atan(y/x)
+            except: angle = 0
             speed = self.type_info[enemy[2]][0]
             xspeed = cos(angle)*dt*speed
             yspeed = sin(angle)*dt*speed
@@ -60,7 +61,7 @@ class handeler():
             y = randint(2,map_size[1])
             x_diff = x-player_pos[0]
             y_diff = y-player_pos[1]
-            if (x_diff > 2 or x_diff < -2) or (y_diff > 2 or y_diff < -2):
+            if (x_diff > 3 or x_diff < -3) or (y_diff > 3 or y_diff < -3):
                 looking = False
         ghost_type = 'basic'
         if randint(0,10) > (10 - current_level):

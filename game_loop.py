@@ -108,9 +108,11 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method):
             guy_x = guy.pos[0] + .5
             guy_y = guy.pos[1] + .5
             if mouse_x - guy_x < 0:
-                guy.direction = atan((mouse_y-guy_y)/(mouse_x-guy_x)) - pi
+                try: guy.direction = atan((mouse_y-guy_y)/(mouse_x-guy_x)) - pi
+                except: guy.direction = -pi/2
             else:
-                guy.direction = atan((mouse_y-guy_y)/(mouse_x-guy_x))
+                try: guy.direction = atan((mouse_y-guy_y)/(mouse_x-guy_x))
+                except: guy.direction = -pi/2
 
         prev_hp = guy.hp
         status = guy.check(forward,backward,right,left,wall_hitbox,enemy_handeler,hit_frames)
