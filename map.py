@@ -1,5 +1,9 @@
 from random import randint
 
+# every level is a 18x13 matrix
+# 16x11 is spawnable since the outside of every level is walls
+# a one is a wall and a zero is nothing
+
 level_1 = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -80,17 +84,17 @@ level_5 = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-#18x13 walls
-#16x11 spawnable
+# the dictionary is defined by 'mode name' : ([maps], [elim goals])
+maps = {
+    'dungeon' : ([level_1,level_2,level_3,level_4,level_5,level_5,level_5,level_5], [10, 30, 60, 100, 150, 210, 280, 340]),
+    'endless' : ([level_1,level_1,level_1,level_1,level_1,level_1,level_1,level_1], [10, 30, 70, 150, 310, 670, 1390, 2830])
+}
 
-elim_goals = [10, 30, 60, 100, 150, 210, 280, 340]  #for use in main game
-maps = [level_1,level_2,level_3,level_4,level_5,level_5,level_5,level_5]
-# elim_goals = [10, 30, 70, 150, 310, 670, 1390, 2830]   #for endless/playground
-# maps = [level_1,level_1,level_1,level_1,level_1,level_1,level_1,level_1]
-
-def find_num_matrix(desired_num, end_list, current_level):
+# finds a number in a level matrix
+# the desired_num is searched for and all locations are put in the end_list
+def find_num_matrix(desired_num, end_list, current_level, mode):
     y = 0
-    for row in (maps[current_level]):
+    for row in (maps[mode][0][current_level]):
         x = 0
         y += 1
         for collum in row:
@@ -98,7 +102,9 @@ def find_num_matrix(desired_num, end_list, current_level):
             if collum == desired_num:
                 end_list.append((x,y))
 
-def collision_check(object_list,hitbox,x_speed,y_speed,location):
+# checks if the location plus its speed is within the hit box of an object in the list
+# y_hit is true if there is an object in the same collum, x__hit is for the same row
+def collision_check(object_list, hitbox, x_speed, y_speed, location):
     x_hit = False
     y_hit = False
     for pos in object_list:
@@ -106,4 +112,4 @@ def collision_check(object_list,hitbox,x_speed,y_speed,location):
             x_hit = True
         if (pos[0] - hitbox < location[0] < pos[0] + hitbox) and (pos[1] - hitbox < location[1] + y_speed < pos[1] + hitbox):
             y_hit = True
-    return x_hit,y_hit
+    return x_hit, y_hit

@@ -70,7 +70,7 @@ class handeler():
             ghost_type = 'mage'
         self.enemie_num += 1
         self.positions.append((x,y,ghost_type))
-    def level_check(self, elim_list, frame_count, current_level, player):
+    def level_check(self, elim_list, frame_count, current_level, player, mode):
         if self.elim_count >= elim_list[current_level]:
             current_level += 1
             self.positions = []
@@ -78,7 +78,7 @@ class handeler():
             player.bullets = []
             self.enemie_num = 0
             frame_count = 0
-            player.set_walls(current_level)
+            player.set_walls(current_level, mode)
             player.pos = (2,2)
             if player.hp < player.max_hp: player.hp += 1
             else: self.elim_count += 10

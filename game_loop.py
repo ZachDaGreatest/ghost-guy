@@ -2,11 +2,12 @@ import pygame
 from player import player
 from math import cos,sin,degrees,atan,pi
 from handelers import handeler, rot_center
-from map import elim_goals, find_num_matrix
+from map import maps, find_num_matrix
 
 pygame.init()
 
-def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method):
+def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
+    elim_goals = maps[mode][1]
     tick_rate = 60
     spawn_frame_count = 0
     hit_frames = 0
@@ -20,10 +21,10 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method):
     left = False
     running = True
     
-    guy = player((2,2),chosen_class,current_level)
+    guy = player((2,2),chosen_class,current_level,mode)
 
     floors = []
-    find_num_matrix(0, floors, 5)
+    find_num_matrix(0, floors, 5, mode)
     wall_hitbox = .93
     map_size = WIDTH/20
     font = pygame.font.Font('fonts\\PixeloidSans.ttf', int(27*(HEIGHT/600)))
@@ -129,11 +130,10 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method):
         enemy_handeler.enemy_check(guy.pos,dt)
         enemy_handeler.move_bullets(guy, guy.room_walls, hit_frames, dt)
 
-        #choose between run info and elim info with level info
-        # run_info = font.render((f'level {current_level+1} with {enemy_handeler.elim_count} eliminations'), False, (169, 169, 169))
-        # screen.blit(run_info, (WIDTH-run_info.get_rect()[2]-map_size, map_size*.1))
+        if mode == 'dungeon': round = 'level'
+        else: round = 'wave'
         elim_info = font.render((f'{elim_goals[current_level]-enemy_handeler.elim_count} ghosts remain'), False, (255, 0, 0))
-        level_info = font.render((f'level {current_level+1}'), False, (169, 169, 169))
+        level_info = font.render((f'{round} {current_level+1}'), False, (169, 169, 169))
         screen.blit(elim_info, (WIDTH-elim_info.get_rect()[2]-map_size, map_size*.1))
         screen.blit(level_info, ((WIDTH-level_info.get_rect()[2])/2, map_size*.1))
 
@@ -176,6 +176,6 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method):
         pygame.display.update((0,0,WIDTH,HEIGHT))
         game_clock.tick(tick_rate)
 
-        current_level, frame_count = enemy_handeler.level_check(elim_goals, frame_count, current_level, guy)
+        current_level, frame_count = enemy_handeler.level_check(elim_goals, frame_count, current_level, guy, mode)
 
     return str(enemy_handeler.elim_count), str(current_level + 1)

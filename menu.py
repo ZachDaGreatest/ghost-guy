@@ -1,10 +1,15 @@
 import pygame
 
-def menu(screen, elim_count, level, HEIGHT, WIDTH):
+# accepts the pygame screen, height and width values, and run info
+# run info [0] is elim cound and [1] is the level from previous run, they are optional to avoid first boot errors
+def menu(screen, HEIGHT, WIDTH, *run_info):
+    # This erases anything that was previously on the screen
     screen.fill((0,0,0))
 
+    # the scale factor makes everything look the same no matter the resolution
     scale_factor = HEIGHT / 600
 
+    # load all of the images
     icon = pygame.image.load('original images\\Ospooky ghost.png')
     logo = pygame.image.load('sprites\\ghost guy logo.png')
     logo = pygame.transform.scale_by(logo,(10*scale_factor))
@@ -15,36 +20,49 @@ def menu(screen, elim_count, level, HEIGHT, WIDTH):
     trophy_image = pygame.image.load('sprites\\trophy.png')
     trophy_image = pygame.transform.scale_by(trophy_image,(5*scale_factor))
 
+    # draw the logo and buttons on the screen
     screen.blit(logo, ((WIDTH-logo.get_rect()[2])/2,155*scale_factor))
     screen.blit(start_button, ((WIDTH-start_button.get_rect()[2])/2,370*scale_factor))
     screen.blit(options_button, ((WIDTH-options_button.get_rect()[2])/2,490*scale_factor))
 
-    #TODO add text of how you did in the previous run
-    if level == 0:
-        message = 'Click start or press space to begin!'
-    else:
-        message = 'you eliminated ' + elim_count + ' spooky ghosts reaching level ' + level
+    # if you have a run it tells you how you did, otherwise it tells you how to start
+    try: message = f'you eliminated {run_info[0]} spooky ghosts reaching level {run_info[1]}'
+    except: message = 'Click start or press space to begin!'
+
+    # the message is taken and turned into a screen object that is put on the screen
     pygame.font.init()
     font = pygame.font.Font('fonts\\PixeloidSans.ttf', int(27*scale_factor))
     run_info = font.render(message, False, (169, 169, 169))
     screen.blit(run_info, ((WIDTH-run_info.get_rect()[2])/2,440*scale_factor))
-    if int(level) >= 5:
-        screen.blit(trophy_image, ((WIDTH-trophy_image.get_rect()[2])/2,50*scale_factor))
 
+    # if the player got to level 5 a trophy is displayed, the except is to avoid first boot errors
+    try: 
+        if int(run_info[1]) >= 5: 
+            screen.blit(trophy_image, ((WIDTH-trophy_image.get_rect()[2])/2,50*scale_factor))
+    except: pass
+
+    # the icon is set to a ghost picture and the screen is updated
     pygame.display.set_icon(icon)
     pygame.display.flip()
     
+    # the main loop of the menu waiting for user input
     while True:
         for event in pygame.event.get():
+            # if the user x's out then the menu returns to not start the game and not continue the main loop
             if event.type == pygame.QUIT: return False,  False
+
+            # when the mouse is pressed the mouse pos is checked with the button pos
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x = pygame.mouse.get_pos()[0]
                 y = pygame.mouse.get_pos()[1]
                 if 312.5*scale_factor < x < 487.5*scale_factor and 370*scale_factor < y < 425*scale_factor:
+                    # the start button is pressed so it returns to start game and keep up the main loop
                     return True, True
                 if 295*scale_factor < x < 505*scale_factor and 490*scale_factor < y < 545*scale_factor:
+                    # the options button is pressed so it returns to not start game while keeping up the main loop
                     return False, True
                 
             if event.type == pygame.KEYDOWN: 
+                # if escape is pressed the menu returns to not start the game and not continue the main loop
                 if event.key == pygame.K_ESCAPE: return False,  False
                 if event.key == pygame.K_SPACE: return True,  True

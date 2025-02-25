@@ -2,9 +2,9 @@ from math import sin,cos,sqrt,pi
 from map import collision_check, find_num_matrix
 
 class player():
-    def __init__(self,pos,chosen_class,current_level):
+    def __init__(self,pos,chosen_class,current_level,mode):
         self.room_walls = []
-        find_num_matrix(1,self.room_walls,current_level)
+        find_num_matrix(1,self.room_walls,current_level,mode)
         self.pos = pos
         self.direction = -pi/2
         self.x_speed = 0
@@ -25,9 +25,9 @@ class player():
     def set_dt(self,dt):
         self.dt = dt
 
-    def set_walls(self,current_level):
+    def set_walls(self,current_level,mode):
         self.room_walls = []
-        find_num_matrix(1,self.room_walls,current_level)
+        find_num_matrix(1,self.room_walls,current_level,mode)
 
     def move_forward(self):
         self.speed += self.acceleration
