@@ -24,7 +24,7 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
     guy = player((2,2),chosen_class,current_level,mode)
 
     floors = []
-    find_num_matrix(0, floors, 5, mode)
+    find_num_matrix(0, floors, 0, mode)
     wall_hitbox = .93
     map_size = WIDTH/20
     font = pygame.font.Font('fonts\\PixeloidSans.ttf', int(27*(HEIGHT/600)))
@@ -32,9 +32,9 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
     try: guy.set_dt(dt)
     except: guy.set_dt(1)
 
-    floor_image = pygame.image.load('sprites\\floor.png')
+    floor_image = pygame.image.load(maps[mode][2])
     floor_image = pygame.transform.scale_by(floor_image,(map_size/16))
-    wall_image = pygame.image.load('sprites\\wall.png')
+    wall_image = pygame.image.load(maps[mode][3])
     wall_image = pygame.transform.scale_by(wall_image,(map_size/16))
     guy_image = pygame.image.load('sprites\\guy.png')
     guy_image = pygame.transform.scale_by(guy_image,(map_size/16))

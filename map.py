@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, choice
 
 # every level is a 18x13 matrix
 # 16x11 is spawnable since the outside of every level is walls
@@ -84,10 +84,14 @@ level_5 = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ]
 
-# the dictionary is defined by 'mode name' : ([maps], [elim goals])
+# the setting for endless is random
+endless_area = choice([('sprites\\wood floor.png', 'sprites\\wall.png'), ('sprites\\crypt floor.png', 'sprites\\crypt wall.png'), ('sprites\\stone floor.png', 'sprites\\block wall.png')])
+# the dictionary is defined by 'mode name' : ([maps], [elim goals], 'floor image path', 'wall image path')
 maps = {
-    'dungeon' : ([level_1,level_2,level_3,level_4,level_5,level_5,level_5,level_5], [10, 30, 60, 100, 150, 210, 280, 340]),
-    'endless' : ([level_1,level_1,level_1,level_1,level_1,level_1,level_1,level_1], [10, 30, 70, 150, 310, 670, 1390, 2830])
+    'dungeon' : ([level_1,level_2,level_3,level_4,level_5,level_5,level_5,level_5], [10, 30, 60, 100, 150, 210, 280, 340], 'sprites\\wood floor.png', 'sprites\\wall.png',),
+    'crypt' : ([level_1,level_2,level_3,level_4,level_5,level_5,level_5,level_5], [10, 30, 60, 100, 150, 210, 280, 340], 'sprites\\crypt floor.png', 'sprites\\crypt wall.png',),
+    'castle' : ([level_1,level_2,level_3,level_4,level_5,level_5,level_5,level_5], [10, 30, 60, 100, 150, 210, 280, 340], 'sprites\\stone floor.png', 'sprites\\block wall.png',),
+    'endless' : ([level_1,level_1,level_1,level_1,level_1,level_1,level_1,level_1], [10, 30, 70, 150, 310, 670, 1390, 2830], endless_area[0], endless_area[1])
 }
 
 # finds a number in a level matrix

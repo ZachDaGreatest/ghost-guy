@@ -18,7 +18,7 @@ input_method = 'keyboard' # can be 'keyboard' or 'mouse'
 
 chosen_class = 'ranger' # can be 'ranger' or 'knight' with 'ranger' being default
 
-mode = 'dungeon' # 'dungeon' is the normal mode and 'endless' is the wave based mode
+mode = 'castle' # 'dungeon', 'crypt', and 'castle' are normal mode and 'endless' is the wave based mode
 
 gaming = True
 while gaming:
