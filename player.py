@@ -1,5 +1,6 @@
 from math import sin,cos,sqrt,pi
 from map import collision_check, find_num_matrix
+from random import randint
 
 class player():
     def __init__(self,pos,chosen_class,current_level,mode):
@@ -13,6 +14,8 @@ class player():
         self.bullets = []
         self.bullet_speed = .4
         self.slash_speed = .075
+        # dodge_chance is a percent out of 100 that can be upgraded in the shop
+        self.dodge_chance = 0
         self.chosen_class = chosen_class
         # class name : [weapon name, starting hp, max hp, speed]
         self.classes = {
@@ -86,7 +89,7 @@ class player():
             x_enemy,y_enemy = collision_check(enemy_handeler.positions,wall_hitbox,self.x_speed,self.y_speed,self.pos)
             if x_enemy == True and y_enemy == True:
                 enemy_handeler.destroy_enemy((self.pos[0], self.pos[1]))
-                self.hp -= 1
+                self.hit()
                 if self.hp <= 0:
                     return False
         return True
@@ -120,3 +123,7 @@ class player():
             x_enemy, y_enemy = collision_check(enemies.positions,.75,0,0,(x,y))
             if x_enemy and y_enemy == True:
                 enemies.destroy_enemy((x,y))
+
+    def hit(self):
+        if randint(0,100) > self.dodge_chance:
+            self.hp -= 1

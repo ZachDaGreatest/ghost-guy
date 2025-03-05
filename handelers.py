@@ -97,7 +97,7 @@ class handeler():
                 pass
             elif x_player and y_player == True:
                 if hit <= 0:
-                    player.hp -= 1
+                    player.hit()
             else:
                 self.ghost_bullets.append((bullet[0] + x_speed, bullet[1] + y_speed, bullet[2]))
 def rot_center(image, angle):

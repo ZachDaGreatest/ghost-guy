@@ -1,0 +1,10 @@
+this is saved settings
+
+# the input method: 'keyboard' or 'mouse'
+I mouse
+
+# the class: 'ranger' or 'knight' with 'ranger' being default
+C ranger
+
+# the mode: 'dungeon', 'crypt', and 'castle' are normal mode while 'endless' is the wave based mode
+M dungeon

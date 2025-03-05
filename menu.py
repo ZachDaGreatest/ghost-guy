@@ -3,6 +3,10 @@ import pygame
 # accepts the pygame screen, height and width values, and run info
 # run info [0] is elim cound and [1] is the level from previous run, they are optional to avoid first boot errors
 def menu(screen, HEIGHT, WIDTH, *run_info):
+    # The second piece of run info is the level reached, and it is stored for use in
+    try: lvl = int(run_info[1])
+    except: lvl = 0
+
     # This erases anything that was previously on the screen
     screen.fill((0,0,0))
 
@@ -26,7 +30,7 @@ def menu(screen, HEIGHT, WIDTH, *run_info):
     screen.blit(options_button, ((WIDTH-options_button.get_rect()[2])/2,490*scale_factor))
 
     # if you have a run it tells you how you did, otherwise it tells you how to start
-    try: message = f'you eliminated {run_info[0]} spooky ghosts reaching level {run_info[1]}'
+    try: message = f'you eliminated {run_info[0]} spooky ghosts reaching level {str(lvl)}'
     except: message = 'Click start or press space to begin!'
 
     # the message is taken and turned into a screen object that is put on the screen
@@ -35,11 +39,10 @@ def menu(screen, HEIGHT, WIDTH, *run_info):
     run_info = font.render(message, False, (169, 169, 169))
     screen.blit(run_info, ((WIDTH-run_info.get_rect()[2])/2,440*scale_factor))
 
-    # if the player got to level 5 a trophy is displayed, the except is to avoid first boot errors
-    try: 
-        if int(run_info[1]) >= 5: 
-            screen.blit(trophy_image, ((WIDTH-trophy_image.get_rect()[2])/2,50*scale_factor))
-    except: pass
+    # TODO make trophy actualy spawn
+    # if the player got to level 5 a trophy is displayed
+    if lvl >= 5: 
+        screen.blit(trophy_image, ((WIDTH-trophy_image.get_rect()[2])/2,50*scale_factor))
 
     # the icon is set to a ghost picture and the screen is updated
     pygame.display.set_icon(icon)
