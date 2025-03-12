@@ -1,10 +1,17 @@
 this is saved settings
+# the very first character in each line is the identifier that the program looks for
 
-# the input method: 'keyboard' or 'mouse'
+# line 1 is the input method: 'keyboard' or 'mouse'
 I mouse
 
-# the class: 'ranger' or 'knight' with 'ranger' being default
+# line 2 is the class: 'ranger' or 'knight' with 'ranger' being default
 C ranger
 
-# the mode: 'dungeon', 'crypt', and 'castle' are normal mode while 'endless' is the wave based mode
+# line 3 is the mode: 'dungeon', 'crypt', and 'castle' are normal mode while 'endless' is the wave based mode
 M dungeon
+
+# line 4 is the high score
+H 0
+
+# line 5 is the resolution
+R 720

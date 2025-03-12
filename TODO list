@@ -1,0 +1,18 @@
+# This file is alive and turned itself into a python file from a txt file
+
+# TODO add some music and sound effects
+
+# pygame.mixer.init()
+# pygame.mixer_music.load()
+# pygame.mixer.Sound.play()
+
+
+# TODO add fullscreen to the options menu
+
+# pygame.display.toggle_fullscreen()
+
+
+# FIXME when you click space to go out of options and then click space again it crashes
+# this only occures after changing the screen resolution
+
+# TODO add a shop between rounds

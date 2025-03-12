@@ -39,7 +39,6 @@ def menu(screen, HEIGHT, WIDTH, *run_info):
     run_info = font.render(message, False, (169, 169, 169))
     screen.blit(run_info, ((WIDTH-run_info.get_rect()[2])/2,440*scale_factor))
 
-    # TODO make trophy actualy spawn
     # if the player got to level 5 a trophy is displayed
     if lvl >= 5: 
         screen.blit(trophy_image, ((WIDTH-trophy_image.get_rect()[2])/2,50*scale_factor))

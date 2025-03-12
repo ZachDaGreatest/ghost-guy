@@ -1,3 +1,5 @@
-I mouse
+I keyboard
 C ranger
-M endless
+M castle
+H 5
+R 720

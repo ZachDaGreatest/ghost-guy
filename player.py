@@ -13,6 +13,7 @@ class player():
         self.speed = 0
         self.bullets = []
         self.bullet_speed = .4
+        # make 1.0 for bayblade
         self.slash_speed = .075
         # dodge_chance is a percent out of 100 that can be upgraded in the shop
         self.dodge_chance = 0
