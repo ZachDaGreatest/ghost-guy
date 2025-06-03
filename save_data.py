@@ -45,6 +45,7 @@ def load_save_data(save_file):
 
 
 def write_save_data(save_file, input_method, chosen_class, mode, high_score, resolution):
+    # each line of save_info includes a key letter along with the information
     save_info = open(save_file, 'w')
     save_info.write(f'I {input_method}\n')
     save_info.write(f'C {chosen_class}\n')

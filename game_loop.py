@@ -1,6 +1,6 @@
 import pygame
 from player import player
-from math import cos,sin,degrees,atan,pi
+from math import cos, sin, degrees, atan, pi
 from handelers import handeler, rot_center
 from map import maps, find_num_matrix
 
@@ -143,9 +143,9 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
             # pygame.draw.rect(screen, (255,255,255), (pos[0]*map_size, pos[1]*map_size, map_size, map_size))
             screen.blit(wall_image, (pos[0]*map_size, pos[1]*map_size))
 
-        for enemy in enemy_handeler.positions:
+        for ghost in enemy_handeler.ghosts:
             # pygame.draw.rect(screen, (255,0,0), (pos[0]*map_size, pos[1]*map_size, map_size, map_size))
-            screen.blit(enemy_handeler.type_info[enemy[2]][1], (enemy[0]*map_size, enemy[1]*map_size))
+            screen.blit(ghost.image, (ghost.pos[0]*map_size, ghost.pos[1]*map_size))
         
         for bullet in guy.bullets:
             if guy.chosen_class != 'knight':

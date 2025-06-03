@@ -87,7 +87,10 @@ class player():
         if y_wall == True:
             self.y_speed = 0
         if hit <= 0:
-            x_enemy,y_enemy = collision_check(enemy_handeler.positions,wall_hitbox,self.x_speed,self.y_speed,self.pos)
+            ghost_positions = []
+            for ghost in enemy_handeler.ghosts:
+                ghost_positions.append(ghost.pos)
+            x_enemy,y_enemy = collision_check(ghost_positions,wall_hitbox,self.x_speed,self.y_speed,self.pos)
             if x_enemy == True and y_enemy == True:
                 enemy_handeler.destroy_enemy((self.pos[0], self.pos[1]))
                 self.hit()
@@ -98,7 +101,7 @@ class player():
     def shoot(self):
         self.bullets.append((self.pos[0] + cos(self.direction), self.pos[1] + sin(self.direction), self.direction))
 
-    def bullet_move(self,enemies):
+    def bullet_move(self, enemy_handeler):
         #TODO make movement uniform like the ghosts
         temp_list = self.bullets
         self.bullets = []
@@ -106,24 +109,30 @@ class player():
             x_speed = cos(bullet[2]) * self.dt * self.bullet_speed
             y_speed = sin(bullet[2]) * self.dt * self.bullet_speed
             x_wall, y_wall = collision_check(self.room_walls,.5,x_speed,y_speed,(bullet[0],bullet[1]))
-            x_enemy, y_enemy = collision_check(enemies.positions,.65,x_speed,y_speed,(bullet[0],bullet[1]))
+            ghost_positions = []
+            for ghost in enemy_handeler.ghosts:
+                ghost_positions.append(ghost.pos)
+            x_enemy, y_enemy = collision_check(ghost_positions,.65,x_speed,y_speed,(bullet[0],bullet[1]))
             if x_wall and y_wall == True:
                 pass
             elif x_enemy and y_enemy == True:
-                enemies.destroy_enemy((bullet[0],bullet[1]))
+                enemy_handeler.destroy_enemy((bullet[0],bullet[1]))
             else:
                 self.bullets.append((bullet[0] + x_speed, bullet[1] + y_speed, bullet[2]))
     
-    def sword_swing(self,enemies):
+    def sword_swing(self, enemy_handeler):
         self.bullets = []
         x = self.pos[0] + cos(self.direction) * 1.1
         y = self.pos[1] + sin(self.direction) * 1.1
         x_wall, y_wall = collision_check(self.room_walls,.4,0,0,(x,y))
         if x_wall == False or y_wall == False:
             self.bullets.append((x, y, self.direction))
-            x_enemy, y_enemy = collision_check(enemies.positions,.75,0,0,(x,y))
+            ghost_positions = []
+            for ghost in enemy_handeler.ghosts:
+                ghost_positions.append(ghost.pos)
+            x_enemy, y_enemy = collision_check(ghost_positions,.75,0,0,(x,y))
             if x_enemy and y_enemy == True:
-                enemies.destroy_enemy((x,y))
+                enemy_handeler.destroy_enemy((x,y))
 
     def hit(self):
         if randint(0,100) > self.dodge_chance:

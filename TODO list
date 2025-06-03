@@ -1,18 +1,24 @@
-# This file is alive and turned itself into a python file from a txt file
+This file is alive and turned itself into a python file from a txt file
+I now know it can evolve since as soon as I saved it in github it turned back
 
-# TODO add some music and sound effects
+
+TODO add some music and sound effects
 
 # pygame.mixer.init()
 # pygame.mixer_music.load()
 # pygame.mixer.Sound.play()
 
 
-# TODO add fullscreen to the options menu
+TODO add fullscreen to the options menu
 
 # pygame.display.toggle_fullscreen()
 
 
-# FIXME when you click space to go out of options and then click space again it crashes
-# this only occures after changing the screen resolution
+FIXME when you click space to go out of options and then click space again it crashes
+this only occures after changing the screen resolution
+code breaks if you quit to fast after changing resolution
 
-# TODO add a shop between rounds
+
+TODO add a shop between rounds
+
+TODO switch to object oriented

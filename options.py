@@ -17,12 +17,13 @@ def make_button(screen, scale_factor, text, object_num, collum, bounds):
     font = pygame.font.Font('fonts\\PixeloidSans.ttf', int(54*scale_factor))
     button = font.render(text, False, (0, 0, 0))
 
-    pygame.draw.rect(screen, (54,54,54), (x-3*adjustment, y-2*adjustment, button.get_rect()[2]+4.8*adjustment, button.get_rect()[3]+4*adjustment))
-    pygame.draw.rect(screen, (85,85,85), (x-2*adjustment, y-1*adjustment, button.get_rect()[2]+2.8*adjustment, button.get_rect()[3]+2*adjustment))
-    pygame.draw.rect(screen, (137,137,137), (x-1*adjustment, y+0*adjustment, button.get_rect()[2]+.8*adjustment, button.get_rect()[3]))
+    pygame.draw.rect(screen, (54,54,54), (x-3*adjustment, y-2*adjustment, button.get_rect()[2] + 4.8*adjustment, button.get_rect()[3] + 4*adjustment))
+    pygame.draw.rect(screen, (85,85,85), (x-2*adjustment, y-1*adjustment, button.get_rect()[2] + 2.8*adjustment, button.get_rect()[3] + 2*adjustment))
+    pygame.draw.rect(screen, (137,137,137), (x-1*adjustment, y+0*adjustment, button.get_rect()[2] + .8*adjustment, button.get_rect()[3]))
     screen.blit(button, (x, y))
 
-    bounds.append((x-3*adjustment, y-2*adjustment, x-3*adjustment + button.get_rect()[2]*scale_factor-2*adjustment, y-2*adjustment + button.get_rect()[3]*scale_factor+2*adjustment))
+    # bounds.append((x-3*adjustment, y-2*adjustment, x-3*adjustment + button.get_rect()[2]*scale_factor-2*adjustment, y-2*adjustment + button.get_rect()[3]*scale_factor+2*adjustment))
+    bounds.append((x-3*adjustment, y-2*adjustment, (x-3*adjustment) + button.get_rect()[2] + 4.8*adjustment, (y-2*adjustment) + button.get_rect()[3] + 4*adjustment))
     
 
 def make_menu(screen, HEIGHT, info):
@@ -110,6 +111,7 @@ def option_menu(screen, HEIGHT, WIDTH, chosen_class, input_method, mode, high_sc
                             window.position = (width_offset, height_offset)
                         bounds = make_menu(screen, HEIGHT, info)
                 
-            if event.type == pygame.KEYDOWN: 
-                if event.key == pygame.K_ESCAPE: return True, info[0], info[1], info[2], int(info[3])
-                if event.key == pygame.K_SPACE: return True, info[0], info[1], info[2], int(info[3])
+            # code breaks if you quit to fast after changing resolution
+            # if event.type == pygame.KEYDOWN: 
+            #     if event.key == pygame.K_ESCAPE: return True, info[0], info[1], info[2], int(info[3])
+            #     if event.key == pygame.K_SPACE: return True, info[0], info[1], info[2], int(info[3])

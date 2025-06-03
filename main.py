@@ -23,6 +23,7 @@ pygame.display.set_caption("ghost guy")
 
 # FIXME when you click space to go out of options and then click space again it crashes
 # this only occures after changing the screen resolution
+# code breaks if you quit to fast after changing resolution
 gaming = True
 while gaming:
     # the try except is for the first boot when there isn't info from game loop
@@ -41,5 +42,5 @@ while gaming:
             HEIGHT = resolution
             WIDTH = int(HEIGHT*(4/3))
 
-
+# all save data is erased and replaced with new save data
 write_save_data('save info.txt', input_method, chosen_class, mode, high_score, resolution)
