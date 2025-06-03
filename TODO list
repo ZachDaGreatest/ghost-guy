@@ -21,4 +21,4 @@ code breaks if you quit to fast after changing resolution
 
 TODO add a shop between rounds
 
-TODO switch to object oriented
+TODO change so that game is running on seperate screen that is scaled instead of scaling each measurement

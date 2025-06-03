@@ -4,7 +4,7 @@ from map import collision_check
 from ghost import ghost
 import pygame
 
-class handeler():
+class handler():
     def __init__(self,map_size):
         spooky_ghost_image = pygame.image.load('sprites\\spooky ghost.png')
         spooky_ghost_image = pygame.transform.scale_by(spooky_ghost_image,(map_size/16))

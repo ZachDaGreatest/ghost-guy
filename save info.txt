@@ -1,5 +1,6 @@
 I keyboard
-C knight
-M crypt
-H 118
-R 480
+C ranger
+M castle
+H 44
+R 720
+F windowed

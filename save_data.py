@@ -27,8 +27,12 @@ def load_save_data(save_file):
                 resolution = ''
                 for num in range(len(line)-3):
                     resolution += line[num+2]
+            if line[0] == 'F':
+                is_fullscreen = ''
+                for num in range(len(line)-3):
+                    is_fullscreen += line[num+2]
         # the info list is to make sure that all needed data is found
-        info = [input_method, chosen_class, mode, high_score, resolution]
+        info = [input_method, chosen_class, mode, high_score, resolution, is_fullscreen]
     except:
         print('save data is corrupted')
         input_method = 'keyboard' # can be in 'keyboard' or 'mouse' mode
@@ -40,11 +44,12 @@ def load_save_data(save_file):
         for resolution in resolutions: res.append(int(resolution))
         best_res = min(res, key=lambda x: abs(x - display.Info().current_h)) 
         resolution = best_res # makes the screen resolution the closest availible resolution
+        is_fullscreen = 'windowed'
 
-    return input_method, chosen_class, mode, high_score, int(resolution)
+    return input_method, chosen_class, mode, high_score, int(resolution), is_fullscreen
 
 
-def write_save_data(save_file, input_method, chosen_class, mode, high_score, resolution):
+def write_save_data(save_file, input_method, chosen_class, mode, high_score, resolution, is_fullscreen):
     # each line of save_info includes a key letter along with the information
     save_info = open(save_file, 'w')
     save_info.write(f'I {input_method}\n')
@@ -52,3 +57,4 @@ def write_save_data(save_file, input_method, chosen_class, mode, high_score, res
     save_info.write(f'M {mode}\n')
     save_info.write(f'H {high_score}\n')
     save_info.write(f'R {resolution}\n')
+    save_info.write(f'F {is_fullscreen}\n')

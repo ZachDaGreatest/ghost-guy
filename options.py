@@ -5,6 +5,7 @@ classes = ['ranger', 'knight']
 input_options = ['keyboard', 'mouse']
 modes = ['dungeon', 'crypt', 'castle', 'endless']
 resolutions = ['480', '720', '960']
+fullscreen = ['fullscreen', 'windowed']
 
 
 def make_button(screen, scale_factor, text, object_num, collum, bounds):
@@ -38,10 +39,10 @@ def make_menu(screen, HEIGHT, info):
 
     bounds = []
     for num in range(len(info)):
-        if num < 3:
+        if num < 4:
             make_button(screen, scale_factor, info[num], num+1, 0, bounds)
         else:
-            make_button(screen, scale_factor, info[num], num+1-3, 1, bounds)
+            make_button(screen, scale_factor, info[num], num+1-4, 1, bounds)
 
     pygame.display.flip()
 
@@ -78,14 +79,21 @@ def cycle(current):
         
     elif current == 'quit':
         return False
+    
+    elif current in fullscreen:
+        try:
+            index = fullscreen.index(current) + 1
+            return fullscreen[index]
+        except:
+            return fullscreen[0]
         
     else:
         return current
 
 
-def option_menu(screen, HEIGHT, WIDTH, chosen_class, input_method, mode, high_score, resolution, monitor_width, monitor_height):
+def option_menu(screen, HEIGHT, WIDTH, chosen_class, input_method, mode, high_score, resolution, is_fullscreen, monitor_width, monitor_height):
 
-    info = [input_method, mode, chosen_class, str(resolution), f'best {high_score}', 'quit']
+    info = [input_method, mode, chosen_class, str(resolution), is_fullscreen, f'best {high_score}', 'quit']
 
     bounds = make_menu(screen, HEIGHT, info)
 
@@ -100,7 +108,7 @@ def option_menu(screen, HEIGHT, WIDTH, chosen_class, input_method, mode, high_sc
                         index = bounds.index(button)
                         info[index] = cycle(info[index])
                         if info[index] == False:
-                            return True, info[0], info[1], info[2], int(info[3])
+                            return True, info[0], info[1], info[2], int(info[3]), info[4]
                         if info[index] in resolutions:
                             HEIGHT = int(info[index])
                             WIDTH = int(HEIGHT*(4/3))
@@ -109,6 +117,8 @@ def option_menu(screen, HEIGHT, WIDTH, chosen_class, input_method, mode, high_sc
                             width_offset = (monitor_width - WIDTH)/2
                             height_offset = (monitor_height - HEIGHT)/2
                             window.position = (width_offset, height_offset)
+                        if info[index] in fullscreen:
+                            pygame.display.toggle_fullscreen()
                         bounds = make_menu(screen, HEIGHT, info)
                 
             # code breaks if you quit to fast after changing resolution

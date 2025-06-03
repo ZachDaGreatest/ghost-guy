@@ -1,7 +1,7 @@
 import pygame
 from player import player
 from math import cos, sin, degrees, atan, pi
-from handelers import handeler, rot_center
+from handlers import handler, rot_center
 from map import maps, find_num_matrix
 
 pygame.init()
@@ -28,7 +28,7 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
     wall_hitbox = .93
     map_size = WIDTH/20
     font = pygame.font.Font('fonts\\PixeloidSans.ttf', int(27*(HEIGHT/600)))
-    enemy_handeler = handeler(map_size)
+    enemy_handler = handler(map_size)
     try: guy.set_dt(dt)
     except: guy.set_dt(1)
 
@@ -55,9 +55,9 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
         else: dt = 1
         guy.set_dt(dt)
 
-        if  enemy_handeler.enemie_num < (current_level + 3):
-            if spawn_frame_count*dt > 12000/(frame_count*dt) and (elim_goals[current_level]-enemy_handeler.elim_count) > enemy_handeler.enemie_num:
-                enemy_handeler.spawn_enemy_random(guy.pos,(16,11),current_level)
+        if  enemy_handler.enemie_num < (current_level + 3):
+            if spawn_frame_count*dt > 12000/(frame_count*dt) and (elim_goals[current_level]-enemy_handler.elim_count) > enemy_handler.enemie_num:
+                enemy_handler.spawn_enemy_random(guy.pos,(16,11),current_level)
                 spawn_frame_count = 0
 
         #Draw background
@@ -116,23 +116,23 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
                 except: guy.direction = -pi/2
 
         prev_hp = guy.hp
-        status = guy.check(forward,backward,right,left,wall_hitbox,enemy_handeler,hit_frames)
+        status = guy.check(forward,backward,right,left,wall_hitbox,enemy_handler,hit_frames)
         if guy.hp < 1:
             status = False
         if status == False: running = False
 
         if guy.chosen_class == 'ranger': 
-            guy.bullet_move(enemy_handeler)
+            guy.bullet_move(enemy_handler)
         if guy.chosen_class == 'knight': 
-            guy.sword_swing(enemy_handeler)
+            guy.sword_swing(enemy_handler)
         
         guy.pos_update()
-        enemy_handeler.enemy_check(guy.pos,dt)
-        enemy_handeler.move_bullets(guy, guy.room_walls, hit_frames, dt)
+        enemy_handler.enemy_check(guy.pos,dt)
+        enemy_handler.move_bullets(guy, guy.room_walls, hit_frames, dt)
 
-        if mode == 'dungeon': round = 'level'
-        else: round = 'wave'
-        elim_info = font.render((f'{elim_goals[current_level]-enemy_handeler.elim_count} ghosts remain'), False, (255, 0, 0))
+        if mode == 'endless': round = 'wave'
+        else: round = 'level'
+        elim_info = font.render((f'{elim_goals[current_level]-enemy_handler.elim_count} ghosts remain'), False, (255, 0, 0))
         level_info = font.render((f'{round} {current_level+1}'), False, (169, 169, 169))
         screen.blit(elim_info, (WIDTH-elim_info.get_rect()[2]-map_size, map_size*.1))
         screen.blit(level_info, ((WIDTH-level_info.get_rect()[2])/2, map_size*.1))
@@ -143,7 +143,7 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
             # pygame.draw.rect(screen, (255,255,255), (pos[0]*map_size, pos[1]*map_size, map_size, map_size))
             screen.blit(wall_image, (pos[0]*map_size, pos[1]*map_size))
 
-        for ghost in enemy_handeler.ghosts:
+        for ghost in enemy_handler.ghosts:
             # pygame.draw.rect(screen, (255,0,0), (pos[0]*map_size, pos[1]*map_size, map_size, map_size))
             screen.blit(ghost.image, (ghost.pos[0]*map_size, ghost.pos[1]*map_size))
         
@@ -151,7 +151,7 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
             if guy.chosen_class != 'knight':
                 pygame.draw.rect(screen, (192,192,192), (bullet[0]*map_size+(3/8)*map_size, bullet[1]*map_size+(3/8)*map_size, map_size/4, map_size/4))
 
-        for bullet in enemy_handeler.ghost_bullets:
+        for bullet in enemy_handler.ghost_bullets:
             pygame.draw.rect(screen, (255,0,255), (bullet[0]*map_size+(3/8)*map_size, bullet[1]*map_size+(3/8)*map_size, map_size/4, map_size/4))
 
         # pygame.draw.rect(screen, (0,255,0), (guy.pos[0]*map_size + cos(guy.direction)*map_size/2 + map_size*(3/8), guy.pos[1]*map_size + sin(guy.direction)*map_size/2 + map_size*(3/8), map_size/4, map_size/4))
@@ -176,6 +176,6 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
         pygame.display.update((0,0,WIDTH,HEIGHT))
         game_clock.tick(tick_rate)
 
-        current_level, frame_count = enemy_handeler.level_check(elim_goals, frame_count, current_level, guy, mode)
+        current_level, frame_count = enemy_handler.level_check(elim_goals, frame_count, current_level, guy, mode)
 
-    return str(enemy_handeler.elim_count), str(current_level + 1)
+    return str(enemy_handler.elim_count), str(current_level + 1)

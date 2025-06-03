@@ -15,3 +15,6 @@ H 0
 
 # line 5 is the resolution
 R 720
+
+# line 6 is whether or not it is in 'windowed' or 'fullscreen'
+F 'windowed'
