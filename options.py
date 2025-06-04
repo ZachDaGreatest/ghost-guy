@@ -4,7 +4,7 @@ from pygame._sdl2 import Window
 classes = ['ranger', 'knight']
 input_options = ['keyboard', 'mouse']
 modes = ['dungeon', 'crypt', 'castle', 'endless']
-resolutions = ['480', '720', '960']
+resolutions = ['res: 480p', 'res: 720p', 'res: 960p']
 fullscreen = ['fullscreen', 'windowed']
 
 
@@ -93,7 +93,7 @@ def cycle(current):
 
 def option_menu(screen, HEIGHT, WIDTH, chosen_class, input_method, mode, high_score, resolution, is_fullscreen, monitor_width, monitor_height):
 
-    info = [input_method, mode, chosen_class, str(resolution), is_fullscreen, f'best {high_score}', 'quit']
+    info = [input_method, mode, chosen_class, f'res: {resolution}p', is_fullscreen, f'best {high_score}', 'quit']
 
     bounds = make_menu(screen, HEIGHT, info)
 
@@ -108,9 +108,11 @@ def option_menu(screen, HEIGHT, WIDTH, chosen_class, input_method, mode, high_sc
                         index = bounds.index(button)
                         info[index] = cycle(info[index])
                         if info[index] == False:
-                            return True, info[0], info[1], info[2], int(info[3]), info[4]
+                            try: return True, info[0], info[1], info[2], int(info[3][5:8]), info[4] # except is for 4 didgit resolutions
+                            except: return True, info[0], info[1], info[2], int(info[3][5:9]), info[4]
                         if info[index] in resolutions:
-                            HEIGHT = int(info[index])
+                            try: HEIGHT = int(info[index][5:8]) # only takes characters 4-7 to only get resolution
+                            except: HEIGHT = int(info[index][5:9]) # except is for 4 digit resolutions
                             WIDTH = int(HEIGHT*(4/3))
                             screen = pygame.display.set_mode((WIDTH, HEIGHT))
                             window = Window.from_display_module()
