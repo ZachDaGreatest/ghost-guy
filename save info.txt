@@ -1,6 +1,6 @@
 I keyboard
-C knight
+C ranger
 M castle
-H 0
+H 1
 R 720
-F fullscreen
+F windowed

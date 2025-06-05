@@ -1,6 +1,4 @@
 from pygame import display
-from options import resolutions
-
 
 def load_save_data(save_file):
     try:
@@ -40,9 +38,8 @@ def load_save_data(save_file):
         mode = 'castle' # 'dungeon', 'crypt', and 'castle' are normal mode and 'endless' is the wave based mode
         high_score = 0 # zero is the base high score
         # take the list of resolutions from before and turn them into integers
-        res = []
-        for resolution in resolutions: res.append(int(resolution))
-        best_res = min(res, key=lambda x: abs(x - display.Info().current_h)) 
+        resolutions = [480, 720, 960]
+        best_res = min(resolutions, key=lambda x: abs(x - display.Info().current_h)) 
         resolution = best_res # makes the screen resolution the closest availible resolution
         is_fullscreen = 'windowed'
 

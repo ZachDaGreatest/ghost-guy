@@ -1,4 +1,4 @@
-#uses pygame, random, and math
+# uses pygame, random, and math
 import pygame
 from game_loop import game_loop
 from menu import menu

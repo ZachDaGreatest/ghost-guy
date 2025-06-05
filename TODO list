@@ -9,11 +9,6 @@ TODO add some music and sound effects
 # pygame.mixer.Sound.play()
 
 
-TODO add fullscreen to the options menu
-
-# pygame.display.toggle_fullscreen()
-
-
 FIXME when you click space to go out of options and then click space again it crashes
 this only occures after changing the screen resolution
 code breaks if you quit to fast after changing resolution
