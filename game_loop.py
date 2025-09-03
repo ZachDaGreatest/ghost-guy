@@ -3,10 +3,11 @@ from player import player
 from math import cos, sin, degrees, atan, pi
 from handlers import handler, rot_center
 from map import maps, find_num_matrix
+from class_selection import class_selection
 
 pygame.init()
 
-def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
+def game_loop(screen, HEIGHT, WIDTH, input_method, mode):
     elim_goals = maps[mode][1]
     tick_rate = 60
     spawn_frame_count = 0
@@ -19,8 +20,9 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
     backward = False
     right = False
     left = False
-    running = True
     
+    running, chosen_class = class_selection(screen, WIDTH, HEIGHT)
+
     guy = player((2,2),chosen_class,current_level,mode)
 
     floors = []
@@ -149,7 +151,7 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
         
         for bullet in guy.bullets:
             if guy.chosen_class != 'knight':
-                pygame.draw.rect(screen, (192,192,192), (bullet[0]*map_size+(3/8)*map_size, bullet[1]*map_size+(3/8)*map_size, map_size/4, map_size/4))
+                pygame.draw.rect(screen, (0,255,255), (bullet[0]*map_size+(3/8)*map_size, bullet[1]*map_size+(3/8)*map_size, map_size/4, map_size/4))
 
         for bullet in enemy_handler.ghost_bullets:
             pygame.draw.rect(screen, (255,0,255), (bullet[0]*map_size+(3/8)*map_size, bullet[1]*map_size+(3/8)*map_size, map_size/4, map_size/4))
@@ -157,10 +159,10 @@ def game_loop(screen, HEIGHT, WIDTH, chosen_class, input_method, mode):
         # pygame.draw.rect(screen, (0,255,0), (guy.pos[0]*map_size + cos(guy.direction)*map_size/2 + map_size*(3/8), guy.pos[1]*map_size + sin(guy.direction)*map_size/2 + map_size*(3/8), map_size/4, map_size/4))
         screen.blit(guy_image, (guy.pos[0]*map_size, guy.pos[1]*map_size))
 
-        dagger_image = pygame.image.load('sprites\\dagger.png')
-        dagger_image = pygame.transform.scale_by(dagger_image,(map_size/16))
-        dagger_image = rot_center(dagger_image, -degrees(guy.direction+pi/2))
-        screen.blit(dagger_image, (guy.pos[0]*map_size + map_size*(1/4) + cos(guy.direction)*map_size/1.2, guy.pos[1]*map_size + map_size*(1/4) + sin(guy.direction)*map_size/1.2))
+        weapon_image = pygame.image.load(f'sprites\\game_{guy.weapon}.png')
+        weapon_image = pygame.transform.scale_by(weapon_image,(map_size/16))
+        weapon_image = rot_center(weapon_image, -degrees(guy.direction+pi/2))
+        screen.blit(weapon_image, (guy.pos[0]*map_size + map_size*(1/4) + cos(guy.direction)*map_size/1.2, guy.pos[1]*map_size + map_size*(1/4) + sin(guy.direction)*map_size/1.2))
         
         if guy.hp <= 5:
             for num in range(guy.hp):

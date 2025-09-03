@@ -1,6 +1,5 @@
 I keyboard
-C ranger
-M castle
-H 1
+M dungeon
+H 134
 R 720
 F windowed

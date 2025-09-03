@@ -9,10 +9,6 @@ def load_save_data(save_file):
                 input_method = ''
                 for num in range(len(line)-3):
                     input_method += line[num+2]
-            if line[0] == 'C':
-                chosen_class = ''
-                for num in range(len(line)-3):
-                    chosen_class += line[num+2]
             if line[0] == 'M':
                 mode = ''
                 for num in range(len(line)-3):
@@ -30,11 +26,10 @@ def load_save_data(save_file):
                 for num in range(len(line)-3):
                     is_fullscreen += line[num+2]
         # the info list is to make sure that all needed data is found
-        info = [input_method, chosen_class, mode, high_score, resolution, is_fullscreen]
+        info = [input_method, mode, high_score, resolution, is_fullscreen]
     except:
         print('save data is corrupted')
         input_method = 'keyboard' # can be in 'keyboard' or 'mouse' mode
-        chosen_class = 'ranger' # can be 'ranger' or 'knight' with 'ranger' being default
         mode = 'castle' # 'dungeon', 'crypt', and 'castle' are normal mode and 'endless' is the wave based mode
         high_score = 0 # zero is the base high score
         # take the list of resolutions from before and turn them into integers
@@ -43,14 +38,13 @@ def load_save_data(save_file):
         resolution = best_res # makes the screen resolution the closest availible resolution
         is_fullscreen = 'windowed'
 
-    return input_method, chosen_class, mode, high_score, int(resolution), is_fullscreen
+    return input_method, mode, high_score, int(resolution), is_fullscreen
 
 
-def write_save_data(save_file, input_method, chosen_class, mode, high_score, resolution, is_fullscreen):
+def write_save_data(save_file, input_method, mode, high_score, resolution, is_fullscreen):
     # each line of save_info includes a key letter along with the information
     save_info = open(save_file, 'w')
     save_info.write(f'I {input_method}\n')
-    save_info.write(f'C {chosen_class}\n')
     save_info.write(f'M {mode}\n')
     save_info.write(f'H {high_score}\n')
     save_info.write(f'R {resolution}\n')

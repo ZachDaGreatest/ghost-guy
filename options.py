@@ -1,7 +1,6 @@
 import pygame
 from pygame._sdl2 import Window
 
-classes = ['ranger', 'knight']
 input_options = ['keyboard', 'mouse']
 modes = ['dungeon', 'crypt', 'castle', 'endless']
 resolutions = ['res: 480p', 'res: 720p', 'res: 960p']
@@ -48,15 +47,8 @@ def make_menu(screen, HEIGHT, info):
 
     return bounds
 
-def cycle(current):
-    if current in classes:
-        try:
-            index = classes.index(current) + 1
-            return classes[index]
-        except:
-            return classes[0]
-        
-    elif current in input_options:
+def cycle(current):    
+    if current in input_options:
         try:
             index = input_options.index(current) + 1
             return input_options[index]
@@ -91,9 +83,9 @@ def cycle(current):
         return current
 
 
-def option_menu(screen, HEIGHT, WIDTH, chosen_class, input_method, mode, high_score, resolution, is_fullscreen, monitor_width, monitor_height):
+def option_menu(screen, HEIGHT, WIDTH, input_method, mode, high_score, resolution, is_fullscreen, monitor_width, monitor_height):
 
-    info = [input_method, mode, chosen_class, f'res: {resolution}p', is_fullscreen, f'best {high_score}', 'quit']
+    info = [input_method, mode, f'res: {resolution}p', is_fullscreen, f'best {high_score}', 'quit']
 
     bounds = make_menu(screen, HEIGHT, info)
 
@@ -108,8 +100,8 @@ def option_menu(screen, HEIGHT, WIDTH, chosen_class, input_method, mode, high_sc
                         index = bounds.index(button)
                         info[index] = cycle(info[index])
                         if info[index] == False:
-                            try: return True, info[0], info[1], info[2], int(info[3][5:8]), info[4] # except is for 4 didgit resolutions
-                            except: return True, info[0], info[1], info[2], int(info[3][5:9]), info[4]
+                            try: return True, info[0], info[1], int(info[2][5:8]), info[3] # except is for 4 didgit resolutions
+                            except: return True, info[0], info[1], int(info[2][5:9]), info[3]
                         if info[index] in resolutions:
                             try: HEIGHT = int(info[index][5:8]) # only takes characters 4-7 to only get resolution
                             except: HEIGHT = int(info[index][5:9]) # except is for 4 digit resolutions

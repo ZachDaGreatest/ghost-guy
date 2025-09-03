@@ -19,13 +19,21 @@ class player():
         self.dodge_chance = 0
         self.chosen_class = chosen_class
         # class name : [weapon name, starting hp, max hp, speed]
+        # TODO change to dictionary of dictionaries
         self.classes = {
-            'ranger' : ['magic dagger', 3, 5, .005],
-            'knight' : ['sword', 5, 8, .0075]
+            'ranger' : {'weapon' : 'dagger', 
+                        'hp' : 3, 
+                        'max hp' : 5, 
+                        'acceleration' : .005},
+            'knight' : {'weapon' : 'sword',
+                        'hp' : 5,
+                        'max hp' : 8,
+                        'acceleration' : .0075}
         }
-        self.hp = self.classes[chosen_class][1]
-        self.max_hp = self.classes[chosen_class][2]
-        self.acceleration = self.classes[chosen_class][3]
+        self.weapon = self.classes[chosen_class]['weapon']
+        self.hp = self.classes[chosen_class]['hp']
+        self.max_hp = self.classes[chosen_class]['max hp']
+        self.acceleration = self.classes[chosen_class]['acceleration']
     def set_dt(self,dt):
         self.dt = dt
 
