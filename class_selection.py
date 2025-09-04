@@ -42,4 +42,5 @@ def class_selection(screen, WIDTH, HEIGHT):
                 
             if event.type == pygame.KEYDOWN: 
                 # if escape is pressed so class selection returns to not start the game
-                if event.key == pygame.K_ESCAPE: return False, False
+                # returns ranger so there isn't a keyerror when the class is pluged into the player class
+                if event.key == pygame.K_ESCAPE: return False, 'ranger'
