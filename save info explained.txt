@@ -4,17 +4,14 @@ this is saved settings
 # line 1 is the input method: 'keyboard' or 'mouse'
 I mouse
 
-# line 2 is the class: 'ranger' or 'knight' with 'ranger' being default
-C ranger
-
-# line 3 is the mode: 'dungeon', 'crypt', and 'castle' are normal mode while 'endless' is the wave based mode
+# line 2 is the mode: 'dungeon', 'crypt', and 'castle' are normal mode while 'endless' is the wave based mode
 M dungeon
 
-# line 4 is the high score
+# line 3 is the high score
 H 0
 
-# line 5 is the resolution
+# line 4 is the resolution
 R 720
 
-# line 6 is whether or not it is in 'windowed' or 'fullscreen'
+# line 5 is whether or not it is in 'windowed' or 'fullscreen'
 F 'windowed'

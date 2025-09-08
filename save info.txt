@@ -1,5 +1,5 @@
 I keyboard
-M castle
+M dungeon
 H 134
 R 720
 F windowed

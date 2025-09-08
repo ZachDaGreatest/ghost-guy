@@ -15,8 +15,6 @@ class player():
         self.bullet_speed = .4
         # make 1.0 for bayblade
         self.slash_speed = .075
-        # dodge_chance is a percent out of 100 that can be upgraded in the shop
-        self.dodge_chance = 0
         self.chosen_class = chosen_class
         # class name : [weapon name, starting hp, max hp, speed]
         # TODO change to dictionary of dictionaries
@@ -24,16 +22,20 @@ class player():
             'ranger' : {'weapon' : 'dagger', 
                         'hp' : 3, 
                         'max hp' : 5, 
-                        'acceleration' : .005},
+                        'acceleration' : .005,
+                        'dodge chance' : 0},
             'knight' : {'weapon' : 'sword',
                         'hp' : 5,
                         'max hp' : 8,
-                        'acceleration' : .0075}
+                        'acceleration' : .0075,
+                        'dodge chance' : 5}
         }
         self.weapon = self.classes[chosen_class]['weapon']
         self.hp = self.classes[chosen_class]['hp']
         self.max_hp = self.classes[chosen_class]['max hp']
         self.acceleration = self.classes[chosen_class]['acceleration']
+        # dodge_chance is a percent out of 100 that can be upgraded in the shop
+        self.dodge_chance = self.classes[chosen_class]['dodge chance']
     def set_dt(self,dt):
         self.dt = dt
 
