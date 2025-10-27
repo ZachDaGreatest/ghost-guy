@@ -12,7 +12,7 @@ class player():
         self.y_speed = 0
         self.speed = 0
         self.bullets = []
-        self.bullet_speed = .4
+        self.bullet_speed = .2
         # make 1.0 for bayblade
         self.slash_speed = .075
         self.chosen_class = chosen_class
@@ -36,6 +36,9 @@ class player():
         self.acceleration = self.classes[chosen_class]['acceleration']
         # dodge_chance is a percent out of 100 that can be upgraded in the shop
         self.dodge_chance = self.classes[chosen_class]['dodge chance']
+        # pierce is the number of enemies a bullet can travel through and can be upgraded in the shop
+        if chosen_class == 'ranger':
+            self.pierce = 1
     def set_dt(self,dt):
         self.dt = dt
 
@@ -109,7 +112,7 @@ class player():
         return True
     
     def shoot(self):
-        self.bullets.append((self.pos[0] + cos(self.direction), self.pos[1] + sin(self.direction), self.direction))
+        self.bullets.append((self.pos[0] + cos(self.direction), self.pos[1] + sin(self.direction), self.direction, self.pierce))
 
     def bullet_move(self, enemy_handeler):
         #TODO make movement uniform like the ghosts
@@ -118,6 +121,7 @@ class player():
         for bullet in temp_list:
             x_speed = cos(bullet[2]) * self.dt * self.bullet_speed
             y_speed = sin(bullet[2]) * self.dt * self.bullet_speed
+            pierce = bullet[3]
             x_wall, y_wall = collision_check(self.room_walls,.5,x_speed,y_speed,(bullet[0],bullet[1]))
             ghost_positions = []
             for ghost in enemy_handeler.ghosts:
@@ -127,8 +131,11 @@ class player():
                 pass
             elif x_enemy and y_enemy == True:
                 enemy_handeler.destroy_enemy((bullet[0],bullet[1]))
+                pierce -= 1
+                if pierce > 0:
+                    self.bullets.append((bullet[0] + x_speed, bullet[1] + y_speed, bullet[2], pierce))
             else:
-                self.bullets.append((bullet[0] + x_speed, bullet[1] + y_speed, bullet[2]))
+                self.bullets.append((bullet[0] + x_speed, bullet[1] + y_speed, bullet[2], pierce))
     
     def sword_swing(self, enemy_handeler):
         self.bullets = []

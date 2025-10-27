@@ -32,8 +32,8 @@ def make_text_box(screen, scale_factor, cords, text_list):
 
 def class_selection(screen, WIDTH, HEIGHT):
 
-    dagger_description = ['There is a dull magic dagger', 'It can fire bolts across the battlefield', 'Comes with regular armor']
-    sword_description = ['There is a very sharp sword', 'Anything that touches it will take damage', 'Comes with extra strong armor']
+    dagger_description = ['The Ranger wields a dull magic dagger', 'It can fire bolts across the battlefield', 'Comes with regular armor']
+    sword_description = ['The Knight has a very sharp sword', 'Anything that touches it will take damage', 'Comes with extra strong armor']
 
     scale_factor = HEIGHT / 600
 
@@ -48,12 +48,12 @@ def class_selection(screen, WIDTH, HEIGHT):
     height_offset = dagger_image.get_rect()[3]
     horizontal_offset = dagger_image.get_rect()[2]/2
 
-    screen.blit(dagger_image, (WIDTH/2 - horizontal_offset*3, HEIGHT/2 - height_offset))
-    screen.blit(sword_image, (WIDTH/2 + horizontal_offset, HEIGHT/2 - height_offset))
-    make_button(screen, scale_factor, 'ranger', 2.5, .05, [])
-    make_button(screen, scale_factor, 'knight', 2.5, 1.175, [])
-    make_text_box(screen, scale_factor, (WIDTH/2 - horizontal_offset*2, HEIGHT/2 + height_offset/16*9), dagger_description)
-    make_text_box(screen, scale_factor, (WIDTH/2 + horizontal_offset*2, HEIGHT/2 + height_offset/16*9), sword_description)
+    screen.blit(dagger_image, (WIDTH/2 - horizontal_offset*3, HEIGHT/2 - height_offset/16*14))
+    screen.blit(sword_image, (WIDTH/2 + horizontal_offset, HEIGHT/2 - height_offset/16*14))
+    make_button(screen, scale_factor, 'ranger', 3, .05, [])
+    make_button(screen, scale_factor, 'knight', 3, 1.175, [])
+    make_text_box(screen, scale_factor, (WIDTH/2 - horizontal_offset*2, HEIGHT/2 + height_offset/16*14), dagger_description)
+    make_text_box(screen, scale_factor, (WIDTH/2 + horizontal_offset*2, HEIGHT/2 + height_offset/16*14), sword_description)
 
     pygame.display.flip()
 

@@ -103,6 +103,7 @@ def option_menu(screen, HEIGHT, WIDTH, input_method, mode, high_score, resolutio
                             try: return True, info[0], info[1], int(info[2][5:8]), info[3] # except is for 4 didgit resolutions
                             except: return True, info[0], info[1], int(info[2][5:9]), info[3]
                         if info[index] in resolutions:
+                            current_screen_state = pygame.display.is_fullscreen()
                             try: HEIGHT = int(info[index][5:8]) # only takes characters 4-7 to only get resolution
                             except: HEIGHT = int(info[index][5:9]) # except is for 4 digit resolutions
                             WIDTH = int(HEIGHT*(4/3))
@@ -111,6 +112,8 @@ def option_menu(screen, HEIGHT, WIDTH, input_method, mode, high_score, resolutio
                             width_offset = (monitor_width - WIDTH)/2
                             height_offset = (monitor_height - HEIGHT)/2
                             window.position = (width_offset, height_offset)
+                            if current_screen_state == True:
+                                pygame.display.toggle_fullscreen()
                         if info[index] in fullscreen:
                             pygame.display.toggle_fullscreen()
                         bounds = make_menu(screen, HEIGHT, info)
