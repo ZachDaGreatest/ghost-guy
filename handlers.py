@@ -12,6 +12,8 @@ class handler():
         sprinter_ghost_image = pygame.transform.scale_by(sprinter_ghost_image,(map_size/16))
         mage_ghost_image = pygame.image.load('sprites\\mage ghost.png')
         mage_ghost_image = pygame.transform.scale_by(mage_ghost_image,(map_size/16))
+        bruiser_ghost_image = pygame.image.load('sprites\\bruiser ghost.png')
+        bruiser_ghost_image = pygame.transform.scale_by(bruiser_ghost_image,(map_size/16))
         self.ghosts = []
         self.enemie_num = 0
         self.bullet_speed = .1
@@ -28,6 +30,9 @@ class handler():
             'mage' : {'speed' : .005, 
                         'image' : mage_ghost_image,
                         'health' : 1},
+            'bruiser' : {'speed' : .025, 
+                        'image' : bruiser_ghost_image,
+                        'health' : 2},
             'place holder' : {'speed' : 0, 
                         'image' : spooky_ghost_image,
                         'health' : 1}   #place holder is for testing
@@ -35,14 +40,18 @@ class handler():
         self.elim_count = 0
         self.speed = .05
 
-    def destroy_enemy(self, enemy_pos):
+    def damage_enemy(self, enemy_pos, damage):
         proximity_list = []
         for ghost in self.ghosts:
             proximity_list.append(abs(ghost.pos[0] - enemy_pos[0]) + abs(ghost.pos[1] - enemy_pos[1]))
         closest_location = min(proximity_list)
-        self.ghosts.pop(proximity_list.index(closest_location))
-        self.enemie_num -= 1
-        self.elim_count += 1
+        is_alive = self.ghosts[proximity_list.index(closest_location)].damage(damage)
+        if is_alive == True:
+            pass
+        else:
+            self.enemie_num -= 1
+            self.elim_count += 1
+            self.ghosts.pop(proximity_list.index(closest_location))
 
     def enemy_check(self, player_pos, dt):
         for ghost in self.ghosts:
@@ -62,11 +71,15 @@ class handler():
             ghost_type = 'sprinter'
         elif randint(0,10) > (11 - current_level):
             ghost_type = 'mage'
+        if ghost_type == 'basic' and randint(0, current_level+1) > 2:
+            ghost_type = 'bruiser'
         self.enemie_num += 1
         self.ghosts.append(ghost(self.type_info, ghost_type, (x,y)))
 
     def level_check(self, elim_list, frame_count, current_level, player, mode):
+        is_new_level = False
         if self.elim_count >= elim_list[current_level]:
+            is_new_level = True
             current_level += 1
             self.ghosts = []
             self.ghost_bullets = []
@@ -75,9 +88,7 @@ class handler():
             frame_count = 0
             player.set_walls(current_level, mode)
             player.pos = (2,2)
-            if player.hp < player.max_hp: player.hp += 1
-            else: self.elim_count += 10
-        return current_level, frame_count
+        return current_level, frame_count, is_new_level
     
     def shoot(self, angle, x, y):
         self.ghost_bullets.append((x,y,angle))

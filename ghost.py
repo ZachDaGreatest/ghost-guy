@@ -28,3 +28,10 @@ class ghost():
             if self.attack_cooldown <= 0:
                 handler.shoot(angle, self.pos[0], self.pos[1])
                 self.attack_cooldown = 120*dt
+    
+    def damage(self, damage):
+        self.health -= damage
+        if self.health <= 0:
+            return False
+        else:
+            return True

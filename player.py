@@ -23,17 +23,20 @@ class player():
                         'hp' : 3, 
                         'max hp' : 5, 
                         'acceleration' : .005,
-                        'dodge chance' : 0},
+                        'dodge chance' : 0,
+                        'damage' : 1},
             'knight' : {'weapon' : 'sword',
                         'hp' : 5,
                         'max hp' : 8,
                         'acceleration' : .0075,
-                        'dodge chance' : 5}
+                        'dodge chance' : 5,
+                        'damage' : 1}
         }
         self.weapon = self.classes[chosen_class]['weapon']
         self.hp = self.classes[chosen_class]['hp']
         self.max_hp = self.classes[chosen_class]['max hp']
         self.acceleration = self.classes[chosen_class]['acceleration']
+        self.damage = self.classes[chosen_class]['damage']
         # dodge_chance is a percent out of 100 that can be upgraded in the shop
         self.dodge_chance = self.classes[chosen_class]['dodge chance']
         # pierce is the number of enemies a bullet can travel through and can be upgraded in the shop
@@ -105,7 +108,7 @@ class player():
                 ghost_positions.append(ghost.pos)
             x_enemy,y_enemy = collision_check(ghost_positions,wall_hitbox,self.x_speed,self.y_speed,self.pos)
             if x_enemy == True and y_enemy == True:
-                enemy_handeler.destroy_enemy((self.pos[0], self.pos[1]))
+                enemy_handeler.damage_enemy((self.pos[0], self.pos[1]), self.damage*5)
                 self.hit()
                 if self.hp <= 0:
                     return False
@@ -130,7 +133,7 @@ class player():
             if x_wall and y_wall == True:
                 pass
             elif x_enemy and y_enemy == True:
-                enemy_handeler.destroy_enemy((bullet[0],bullet[1]))
+                enemy_handeler.damage_enemy((bullet[0], bullet[1]), self.damage)
                 pierce -= 1
                 if pierce > 0:
                     self.bullets.append((bullet[0] + x_speed, bullet[1] + y_speed, bullet[2], pierce))
@@ -149,7 +152,7 @@ class player():
                 ghost_positions.append(ghost.pos)
             x_enemy, y_enemy = collision_check(ghost_positions,.75,0,0,(x,y))
             if x_enemy and y_enemy == True:
-                enemy_handeler.destroy_enemy((x,y))
+                enemy_handeler.damage_enemy((x,y), self.damage)
 
     def hit(self):
         if randint(0,100) > self.dodge_chance:

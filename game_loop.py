@@ -4,6 +4,7 @@ from math import cos, sin, degrees, atan, pi
 from handlers import handler, rot_center
 from map import maps, find_num_matrix
 from class_selection import class_selection
+from shop import shop
 
 pygame.init()
 
@@ -21,9 +22,12 @@ def game_loop(screen, HEIGHT, WIDTH, input_method, mode):
     right = False
     left = False
     
-    running, chosen_class = class_selection(screen, WIDTH, HEIGHT)
+    try: running, chosen_class = class_selection(screen, WIDTH, HEIGHT)
+    except: return 'quite'
 
-    guy = player((2,2),chosen_class,current_level,mode)
+    guy = player((2,2), chosen_class, current_level, mode)
+
+    store = shop(guy, WIDTH, HEIGHT)
 
     floors = []
     find_num_matrix(0, floors, 0, mode)
@@ -96,7 +100,7 @@ def game_loop(screen, HEIGHT, WIDTH, input_method, mode):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if guy.chosen_class == 'ranger' and input_method == 'mouse':
                     guy.shoot()
-        
+
         if forward == True: guy.move_forward()
         if backward == True: guy.move_backward()
         if right == True: guy.move_right()
@@ -178,6 +182,15 @@ def game_loop(screen, HEIGHT, WIDTH, input_method, mode):
         pygame.display.update((0,0,WIDTH,HEIGHT))
         game_clock.tick(tick_rate)
 
-        current_level, frame_count = enemy_handler.level_check(elim_goals, frame_count, current_level, guy, mode)
+        current_level, frame_count, is_new_level = enemy_handler.level_check(elim_goals, frame_count, current_level, guy, mode)
+        if is_new_level == True:
+            if store.display_shop(screen) == False:
+                running = False
+            forward = False
+            backward = False
+            right = False
+            left = False
+            turn_right = False
+            turn_left = False
 
     return str(enemy_handler.elim_count), str(current_level + 1)

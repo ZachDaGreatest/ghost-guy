@@ -33,7 +33,9 @@ while gaming:
     except: play, gaming = menu(screen, HEIGHT, WIDTH)
     # if menu returned true, true then the game runs
     if play: 
-        elim_count, level = game_loop(screen, HEIGHT, WIDTH, input_method, mode)
+        # the try except is to avoid errors when quiting
+        try: elim_count, level = game_loop(screen, HEIGHT, WIDTH, input_method, mode)
+        except: break
         # this checks if there is a new high score
         if int(elim_count) > int(high_score): high_score = elim_count
     # if menu returned false, true the game loop doesn't run and the option menu does
