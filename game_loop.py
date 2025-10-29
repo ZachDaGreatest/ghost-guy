@@ -49,6 +49,7 @@ def game_loop(screen, HEIGHT, WIDTH, input_method, mode):
 
     game_clock = pygame.time.Clock()
 
+    store.display_shop(screen)
     while running:
         frame_count += 1
         spawn_frame_count += 1

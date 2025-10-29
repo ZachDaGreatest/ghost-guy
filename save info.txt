@@ -1,5 +1,5 @@
 I keyboard
 M dungeon
-H 184
+H 192
 R 720
 F windowed

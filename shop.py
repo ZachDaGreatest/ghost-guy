@@ -7,7 +7,6 @@ class shop():
         self.WIDTH = WIDTH
         self.HEIGHT = HEIGHT
 
-
         self.player = player
         self.chosen_class = player.chosen_class
 
@@ -22,16 +21,38 @@ class shop():
         height_offset = self.life_upgrade_image.get_rect()[3]
         horizontal_offset = self.life_upgrade_image.get_rect()[2]/2
 
-        screen.fill((0,0,0))
-        screen.blit(self.life_upgrade_image, (self.WIDTH/2-3*horizontal_offset, self.HEIGHT/2-height_offset*2/3))
-        make_text_box(screen, self.scale_factor, (self.WIDTH/3*2+horizontal_offset, self.HEIGHT/2+height_offset*2/3), ['Upgrade Your Health', 'increases max hp', 'or regens lost hp'])
-        screen.blit(self.health_image, (self.WIDTH/2+horizontal_offset, self.HEIGHT/2-height_offset*2/3))
-        make_text_box(screen, self.scale_factor, (self.WIDTH/3-horizontal_offset, self.HEIGHT/2+height_offset*2/3), ['Upgrade Your Defence', 'increases dodge chance', 'or regens lost hp'])
-        screen.blit(self.damage_upgrade_image, (self.WIDTH/2-horizontal_offset, self.HEIGHT/2-height_offset*2/3))
+        if self.player.hp <= self.player.max_hp-2: 
+            health_upgrade_text = ['Upgrade Your Health', 'regens lost hp']
+            regen = True
+        else: 
+            health_upgrade_text = ['Upgrade Your Health', 'increases max hp']
+            regen = False
+
         if self.player.chosen_class == 'ranger':
-            make_text_box(screen, self.scale_factor, (self.WIDTH/2, self.HEIGHT/2+height_offset*2/3), ['Upgrade Your Attack', 'increases pierce', 'or increases damage'])
+            if self.player.pierce <= self.player.damage:
+                damage_upgrade_text = ['Upgrade Your Attack', 'increases pierce']
+                ranger_pierce = True
+            else:
+                damage_upgrade_text = ['Upgrade Your Attack', 'increases damage']
+                ranger_pierce =  False
         else:
-            make_text_box(screen, self.scale_factor, (self.WIDTH/2, self.HEIGHT/2+height_offset*2/3), ['Upgrade Your Attack', 'increases swing speed'])
+            damage_upgrade_text = ['Upgrade Your Attack', 'increases swing speed']
+
+        if self.player.dodge_chance < 70:
+            dodge = True
+            defence_upgrade_text = ['Upgrade Your Defence', 'increases dodge chance']
+        else:
+            dodge = False
+            defence_upgrade_text = ['Upgrade Your Defence', 'dodge chance is higher than 70%', 'gives health upgrade']
+
+        screen.fill((139,69,19))
+        screen.blit(self.life_upgrade_image, (self.WIDTH/2-3*horizontal_offset, self.HEIGHT/2-height_offset*17/30))
+        make_text_box(screen, self.scale_factor, (self.WIDTH/3*2+horizontal_offset, self.HEIGHT/2+height_offset*2/3), health_upgrade_text)
+        screen.blit(self.health_image, (self.WIDTH/2+horizontal_offset, self.HEIGHT/2-height_offset*17/30))
+        make_text_box(screen, self.scale_factor, (self.WIDTH/3-horizontal_offset, self.HEIGHT/2+height_offset*2/3), defence_upgrade_text)
+        screen.blit(self.damage_upgrade_image, (self.WIDTH/2-horizontal_offset, self.HEIGHT/2-height_offset*17/30))
+        make_text_box(screen, self.scale_factor, (self.WIDTH/2, self.HEIGHT/2+height_offset*2/3), damage_upgrade_text)
+        make_text_box(screen, self.scale_factor*3, (self.WIDTH/2, height_offset/10), ['Upgrade Time'])
         pygame.display.flip()
         
         waiting = True
@@ -44,7 +65,7 @@ class shop():
                     y = pygame.mouse.get_pos()[1]
                     if x > self.WIDTH/3*2:
                         # health upgrade
-                        if self.player.hp <= self.player.max_hp-2:
+                        if regen == True: 
                             self.player.hp += 2
                         else:
                             self.player.max_hp += 1
@@ -52,17 +73,17 @@ class shop():
                         return True
                     elif x > self.WIDTH/3:
                         # attack upgrade
-                        if self.player.chosen_class == 'ranger':
-                            if self.player.pierce <= self.player.damage:
+                        try:
+                            if ranger_pierce == True:
                                 self.player.pierce += 1
                             else:
                                 self.player.damage += 1
-                        else:
+                        except:
                             self.player.slash_speed += .05
                         return True
                     else:
                         # defence upgrade
-                        if self.player.dodge_chance < 70:
+                        if dodge == True:
                             self.player.dodge_chance += 10
                         else:
                             if self.player.hp <= self.player.max_hp-2:

@@ -14,7 +14,7 @@ class player():
         self.bullets = []
         self.bullet_speed = .2
         # make 1.0 for bayblade
-        self.slash_speed = .075
+        self.slash_speed = .05
         self.chosen_class = chosen_class
         # class name : [weapon name, starting hp, max hp, speed]
         # TODO change to dictionary of dictionaries
