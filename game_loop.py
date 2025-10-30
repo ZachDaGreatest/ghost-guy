@@ -5,12 +5,15 @@ from handlers import handler, rot_center
 from map import maps, find_num_matrix
 from class_selection import class_selection
 from shop import shop
+from options import brighten_screen
 
 pygame.init()
 
 def game_loop(screen, HEIGHT, WIDTH, input_method, mode):
+    use_delta_time = False
+    tick_rate = 30
+
     elim_goals = maps[mode][1]
-    tick_rate = 60
     spawn_frame_count = 0
     hit_frames = 0
     frame_count = 0
@@ -21,6 +24,7 @@ def game_loop(screen, HEIGHT, WIDTH, input_method, mode):
     backward = False
     right = False
     left = False
+    gaming = True
     
     try: running, chosen_class = class_selection(screen, WIDTH, HEIGHT)
     except: return 'quite'
@@ -35,8 +39,6 @@ def game_loop(screen, HEIGHT, WIDTH, input_method, mode):
     map_size = WIDTH/20
     font = pygame.font.Font('fonts\\PixeloidSans.ttf', int(27*(HEIGHT/600)))
     enemy_handler = handler(map_size)
-    try: guy.set_dt(dt)
-    except: guy.set_dt(1)
 
     floor_image = pygame.image.load(maps[mode][2])
     floor_image = pygame.transform.scale_by(floor_image,(map_size/16))
@@ -49,17 +51,23 @@ def game_loop(screen, HEIGHT, WIDTH, input_method, mode):
 
     game_clock = pygame.time.Clock()
 
-    store.display_shop(screen)
+    if running == True:
+        try: running = store.display_shop(screen)
+        except: return 'quite'
+    
     while running:
         frame_count += 1
         spawn_frame_count += 1
         
         # print(game_clock.get_fps()) #debugging ghost movement
 
-        if tick_rate != 60:
-            try: dt = 60/float(game_clock.get_fps())
-            except: dt = 1
-        else: dt = 1
+        if use_delta_time == True:
+            if tick_rate != 60:
+                try: dt = 60/float(game_clock.get_fps())
+                except: dt = 1
+            else: dt = 1
+        else:
+            dt = 60/tick_rate
         guy.set_dt(dt)
 
         if  enemy_handler.enemie_num < (current_level + 3):
@@ -178,9 +186,9 @@ def game_loop(screen, HEIGHT, WIDTH, input_method, mode):
             screen.blit(heart_image, (hp_text.get_rect()[2] + map_size, 0))
 
         if prev_hp > guy.hp:
-            hit_frames += 12*dt
+            hit_frames += 12/dt
 
-        pygame.display.update((0,0,WIDTH,HEIGHT))
+        pygame.display.flip()
         game_clock.tick(tick_rate)
 
         current_level, frame_count, is_new_level = enemy_handler.level_check(elim_goals, frame_count, current_level, guy, mode)

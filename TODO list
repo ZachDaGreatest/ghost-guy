@@ -13,9 +13,11 @@ FIXME when you click space to go out of options and then click space again it cr
 this only occures after changing the screen resolution
 code breaks if you quit to fast after changing resolution
 
+FIXME change/remove mouse mode
 
-TODO add a shop between rounds
-
-TODO make the x out for class selection close the game without crashing or bringing to menu
 
 TODO make is so when you change resolution in fullscreen mode it stays full screen + add more resolutions
+
+TODO add a totorial with the happy ghost teaching you what to do
+
+TODO add difficulties where ghosts have higher health and speed

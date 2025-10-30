@@ -20,8 +20,8 @@ class player():
         # TODO change to dictionary of dictionaries
         self.classes = {
             'ranger' : {'weapon' : 'dagger', 
-                        'hp' : 3, 
-                        'max hp' : 5, 
+                        'hp' : 4, 
+                        'max hp' : 7, 
                         'acceleration' : .005,
                         'dodge chance' : 0,
                         'damage' : 1},
@@ -29,7 +29,7 @@ class player():
                         'hp' : 5,
                         'max hp' : 8,
                         'acceleration' : .0075,
-                        'dodge chance' : 5,
+                        'dodge chance' : 15,
                         'damage' : 1}
         }
         self.weapon = self.classes[chosen_class]['weapon']
@@ -108,7 +108,7 @@ class player():
                 ghost_positions.append(ghost.pos)
             x_enemy,y_enemy = collision_check(ghost_positions,wall_hitbox,self.x_speed,self.y_speed,self.pos)
             if x_enemy == True and y_enemy == True:
-                enemy_handeler.damage_enemy((self.pos[0], self.pos[1]), self.damage*5)
+                enemy_handeler.damage_enemy((self.pos[0], self.pos[1]), self.damage*5, id(self))
                 self.hit()
                 if self.hp <= 0:
                     return False
@@ -125,6 +125,8 @@ class player():
             x_speed = cos(bullet[2]) * self.dt * self.bullet_speed
             y_speed = sin(bullet[2]) * self.dt * self.bullet_speed
             pierce = bullet[3]
+            # the id is to make sure a piercing shot doesn't just damage the same enemy several times
+            id_number = id(bullet)
             x_wall, y_wall = collision_check(self.room_walls,.5,x_speed,y_speed,(bullet[0],bullet[1]))
             ghost_positions = []
             for ghost in enemy_handeler.ghosts:
@@ -133,7 +135,7 @@ class player():
             if x_wall and y_wall == True:
                 pass
             elif x_enemy and y_enemy == True:
-                enemy_handeler.damage_enemy((bullet[0], bullet[1]), self.damage)
+                enemy_handeler.damage_enemy((bullet[0], bullet[1]), self.damage, id_number)
                 pierce -= 1
                 if pierce > 0:
                     self.bullets.append((bullet[0] + x_speed, bullet[1] + y_speed, bullet[2], pierce))
@@ -152,7 +154,8 @@ class player():
                 ghost_positions.append(ghost.pos)
             x_enemy, y_enemy = collision_check(ghost_positions,.75,0,0,(x,y))
             if x_enemy and y_enemy == True:
-                enemy_handeler.damage_enemy((x,y), self.damage)
+                # FIXME
+                enemy_handeler.damage_enemy((x,y), self.damage, id(self))
 
     def hit(self):
         if randint(0,100) > self.dodge_chance:

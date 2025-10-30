@@ -40,12 +40,12 @@ class handler():
         self.elim_count = 0
         self.speed = .05
 
-    def damage_enemy(self, enemy_pos, damage):
+    def damage_enemy(self, enemy_pos, damage, id_number):
         proximity_list = []
         for ghost in self.ghosts:
             proximity_list.append(abs(ghost.pos[0] - enemy_pos[0]) + abs(ghost.pos[1] - enemy_pos[1]))
         closest_location = min(proximity_list)
-        is_alive = self.ghosts[proximity_list.index(closest_location)].damage(damage)
+        is_alive = self.ghosts[proximity_list.index(closest_location)].damage(damage, id_number)
         if is_alive == True:
             pass
         else:
@@ -97,8 +97,8 @@ class handler():
         temp = self.ghost_bullets
         self.ghost_bullets = []
         for bullet in temp:
-            x_speed = cos(bullet[2]) * dt * self.bullet_speed
-            y_speed = sin(bullet[2]) * dt * self.bullet_speed
+            x_speed = cos(bullet[2]) * self.bullet_speed * dt
+            y_speed = sin(bullet[2]) * self.bullet_speed * dt
             x_wall, y_wall = collision_check(wall_pos,.5,x_speed,y_speed,(bullet[0],bullet[1]))
             x_player, y_player = collision_check([player.pos],1,x_speed,y_speed,(bullet[0],bullet[1]))
             if x_wall and y_wall == True:

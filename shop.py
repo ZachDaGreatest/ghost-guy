@@ -47,9 +47,9 @@ class shop():
 
         screen.fill((139,69,19))
         screen.blit(self.life_upgrade_image, (self.WIDTH/2-3*horizontal_offset, self.HEIGHT/2-height_offset*17/30))
-        make_text_box(screen, self.scale_factor, (self.WIDTH/3*2+horizontal_offset, self.HEIGHT/2+height_offset*2/3), health_upgrade_text)
+        make_text_box(screen, self.scale_factor, (self.WIDTH/3*2+horizontal_offset*31/32, self.HEIGHT/2+height_offset*2/3), health_upgrade_text)
         screen.blit(self.health_image, (self.WIDTH/2+horizontal_offset, self.HEIGHT/2-height_offset*17/30))
-        make_text_box(screen, self.scale_factor, (self.WIDTH/3-horizontal_offset, self.HEIGHT/2+height_offset*2/3), defence_upgrade_text)
+        make_text_box(screen, self.scale_factor, (self.WIDTH/3-horizontal_offset*15/16, self.HEIGHT/2+height_offset*2/3), defence_upgrade_text)
         screen.blit(self.damage_upgrade_image, (self.WIDTH/2-horizontal_offset, self.HEIGHT/2-height_offset*17/30))
         make_text_box(screen, self.scale_factor, (self.WIDTH/2, self.HEIGHT/2+height_offset*2/3), damage_upgrade_text)
         make_text_box(screen, self.scale_factor*3, (self.WIDTH/2, height_offset/10), ['Upgrade Time'])
@@ -59,7 +59,11 @@ class shop():
         while waiting:
             for event in pygame.event.get():
                 # pygame.QUIT is activating imediately every time
-                # if event.type == pygame.QUIT(): return False
+                if event.type == pygame.QUIT: 
+                    return False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        return False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     x = pygame.mouse.get_pos()[0]
                     y = pygame.mouse.get_pos()[1]

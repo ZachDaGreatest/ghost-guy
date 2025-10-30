@@ -6,6 +6,10 @@ modes = ['dungeon', 'crypt', 'castle', 'endless']
 resolutions = ['res: 480p', 'res: 720p', 'res: 960p']
 fullscreen = ['fullscreen', 'windowed']
 
+def brighten_screen(screen, amount):
+    brightness_filter = pygame.surface.Surface((screen.get_size()))
+    brightness_filter.fill((amount, amount, amount))
+    screen.blit(brightness_filter, (0,0), special_flags=pygame.BLEND_RGB_ADD)
 
 def make_button(screen, scale_factor, text, object_num, collum, bounds):
 
@@ -92,6 +96,9 @@ def option_menu(screen, HEIGHT, WIDTH, input_method, mode, high_score, resolutio
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: return False,  info[0], info[1], info[2], int(info[3])
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return False,  info[0], info[1], info[2], int(info[3])
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x = pygame.mouse.get_pos()[0]
                 y = pygame.mouse.get_pos()[1]
