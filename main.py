@@ -14,18 +14,19 @@ monitor_height = pygame.display.Info().current_h
 # this grabs all info from given file
 input_method, mode, high_score, resolution, is_fullscreen = load_save_data('save info.txt')
 
+# take the resolution from save data and turns it into a height and width
 HEIGHT = resolution    # factors of 240 work best
 WIDTH = int(HEIGHT*(4/3))
 
+# set up the screen object with pygame
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("ghost guy")
 
+# if the game was saved in fullscreen the game will toggle into full screen
 if is_fullscreen == 'fullscreen':
     pygame.display.toggle_fullscreen()
 
-# FIXME when you click space to go out of options and then click space again it crashes
-# this only occures after changing the screen resolution
-# code breaks if you quit to fast after changing resolution
+# the while loop is for changing between settings, the game, and quitting
 gaming = True
 while gaming:
     # the try except is for the first boot when there isn't info from game loop
@@ -41,6 +42,7 @@ while gaming:
     # if menu returned false, true the game loop doesn't run and the option menu does
     elif gaming: 
         gaming, input_method, mode, new_resolution, is_fullscreen = option_menu(screen, HEIGHT, WIDTH, input_method, mode, high_score, resolution, is_fullscreen, monitor_width, monitor_height)
+        # if the resolution has changed the width and height are updated
         if new_resolution != resolution:
             resolution = new_resolution
             HEIGHT = resolution

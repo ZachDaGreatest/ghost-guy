@@ -1,5 +1,6 @@
 from pygame import display
 
+# the function for accesing all information from the save data file
 def load_save_data(save_file):
     try:
         # save info.txt has all saved settings
@@ -28,6 +29,7 @@ def load_save_data(save_file):
         # the info list is to make sure that all needed data is found
         info = [input_method, mode, high_score, resolution, is_fullscreen]
     except:
+        # if something isn't in the save data file it prints that the data is corrupted and returns to defalt settings
         print('save data is corrupted')
         input_method = 'keyboard' # can be in 'keyboard' or 'mouse' mode
         mode = 'castle' # 'dungeon', 'crypt', and 'castle' are normal mode and 'endless' is the wave based mode
@@ -38,9 +40,11 @@ def load_save_data(save_file):
         resolution = best_res # makes the screen resolution the closest availible resolution
         is_fullscreen = 'windowed'
 
+    # sends all retrieved info back
     return input_method, mode, high_score, int(resolution), is_fullscreen
 
 
+# the function for replacing the data in the save data file
 def write_save_data(save_file, input_method, mode, high_score, resolution, is_fullscreen):
     # each line of save_info includes a key letter along with the information
     save_info = open(save_file, 'w')

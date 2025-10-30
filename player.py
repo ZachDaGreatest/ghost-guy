@@ -17,7 +17,6 @@ class player():
         self.slash_speed = .05
         self.chosen_class = chosen_class
         # class name : [weapon name, starting hp, max hp, speed]
-        # TODO change to dictionary of dictionaries
         self.classes = {
             'ranger' : {'weapon' : 'dagger', 
                         'hp' : 4, 

@@ -3,7 +3,7 @@ import pygame
 # accepts the pygame screen, height and width values, and run info
 # run info [0] is elim cound and [1] is the level from previous run, they are optional to avoid first boot errors
 def menu(screen, HEIGHT, WIDTH, *run_info):
-    # The second piece of run info is the level reached, and it is stored for use in
+    # The second piece of run info is the level reached
     try: lvl = int(run_info[1])
     except: lvl = 0
 

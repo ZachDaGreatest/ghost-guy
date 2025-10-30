@@ -1,28 +1,33 @@
 import pygame
 from options import make_button
 
-# add lines so that you use multiple of the light gray box behind text with one big dark gray box
+# this is a copy of the make button except it doesn't include bounds
 def make_text_box(screen, scale_factor, cords, text_list):
 
+    # set up variables used in placement of elements
     adjustment = 5*scale_factor
     x, y = cords
     y_offset = 0
     x_offset = 0
     lines = []
 
+    # initialize the font and render all of the lines of text
     pygame.font.init()
     font = pygame.font.Font('fonts\\PixeloidSans.ttf', int(15*scale_factor))
     for text in text_list:
         lines.append(font.render(text, False, (0, 0, 0)))
 
+    # this figures out what the longest line of text is for use in drawing the outline
     lengths = []
     for text in lines:
         lengths.append(text.get_rect()[2])
     lengths.sort(reverse=True)
 
+    # draw the background for the text
     pygame.draw.rect(screen, (54,54,54), (x-1.5*adjustment - lengths[0]/2, y-.5*adjustment + y_offset, lengths[0] + 2*adjustment, lines[0].get_rect()[3]*len(lines) + adjustment))
     pygame.draw.rect(screen, (137,137,137), (x-1*adjustment - lengths[0]/2, y+0*adjustment + y_offset, lengths[0] + 1*adjustment, lines[0].get_rect()[3]*len(lines)))
 
+    # this takes each line and places it on the background from earlier
     for text in lines:
         x_offset = (lengths[0] - text.get_rect()[2]) / 2 - lengths[0]/2
 
@@ -30,24 +35,31 @@ def make_text_box(screen, scale_factor, cords, text_list):
 
         y_offset += text.get_rect()[3]
 
+
+# this function is used during after clicking start for the user to select a class for their character
 def class_selection(screen, WIDTH, HEIGHT):
 
+    # this is the text displayed for each class
     dagger_description = ['The Ranger wields a dull magic dagger', 'It can fire bolts across the battlefield', 'Comes with regular armor']
     sword_description = ['The Knight has a very sharp sword', 'Anything that touches it will take damage', 'Comes with extra strong armor']
 
+    # the scale factor is used to place sprites regardless of resolution
     scale_factor = HEIGHT / 600
 
     # fills the screen with black
     screen.fill((0,0,0))
 
+    # loads and scales the needed sprites
     dagger_image = pygame.image.load('sprites\\menu_dagger.png')
     dagger_image = pygame.transform.scale_by(dagger_image, scale_factor*8)
     sword_image = pygame.image.load('sprites\\menu_sword.png')
     sword_image = pygame.transform.scale_by(sword_image, scale_factor*8)
 
+    # the dimensions of a sprite are used to help place the images
     height_offset = dagger_image.get_rect()[3]
     horizontal_offset = dagger_image.get_rect()[2]/2
 
+    # the sprites are drawn and text boxes are created
     screen.blit(dagger_image, (WIDTH/2 - horizontal_offset*3, HEIGHT/2 - height_offset/16*14))
     screen.blit(sword_image, (WIDTH/2 + horizontal_offset, HEIGHT/2 - height_offset/16*14))
     make_button(screen, scale_factor, 'ranger', 3, .05, [])
@@ -55,8 +67,10 @@ def class_selection(screen, WIDTH, HEIGHT):
     make_text_box(screen, scale_factor, (WIDTH/2 - horizontal_offset*2, HEIGHT/2 + height_offset/16*14), dagger_description)
     make_text_box(screen, scale_factor, (WIDTH/2 + horizontal_offset*2, HEIGHT/2 + height_offset/16*14), sword_description)
 
+    # the screen is updated
     pygame.display.flip()
 
+    # the main loop waits for user input
     waiting = True
     while waiting:
         for event in pygame.event.get():
